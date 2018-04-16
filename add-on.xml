@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xt:extensions xmlns:xt="http://www.oxygenxml.com/ns/extension"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.oxygenxml.com/ns/extension http://www.oxygenxml.com/ns/extension/extensions.xsd">
+    <xt:extension id="com.oxygenxml.dita.ot.3_x">
+        <xt:location href="https://github.com/oxygenxml/dita-ot-3x-plugin/archive/master.zip"/>
+        <xt:version>1.0.0</xt:version>
+        <xt:oxy_version>20.0</xt:oxy_version>
+        <xt:type>plugin</xt:type>
+        <xt:author>SyncroSoft</xt:author>
+        <xt:name>DITA OT 3.x publishing engine.</xt:name>
+        <xt:description xmlns="http://www.w3.org/1999/xhtml">
+            Plugin which contributes a DITA OT 3.x engine which can be selected in the Oxygen Preferences->DITA page and used for publishing.
+        </xt:description>
+        <xt:license>
+<![CDATA[
+
+Copyright (c) 2018 by Syncro Soft SRL. All rights reserved.
+Grant of license. Syncro Soft grants You the non-exclusive right to install and use copies of the Oxygen Content Fusion Connector ("Connector") on your computer running a validly licensed copy of Oxygen XML software for which the plugin was designed.
+Disclaimer. THE PLUGIN LICENSED HEREUNDER IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+Third Party Software. The plugin contains third party software components licensed under Apache 2.0 license. 
+]]></xt:license>
+    </xt:extension>
+</xt:extensions>

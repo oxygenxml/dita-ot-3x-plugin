@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plugin PUBLIC "-//Oxygen Plugin" "../plugin.dtd">
+<plugin
+ id="com.oxygenxml.dita.ot.3_x"
+ name="DITA OT 3.x"
+ description="Contribute DITA OT 3.x for publishing DITA content from Oxygen"
+ version="1.0"
+ vendor="Syncro Soft"
+ class="ro.sync.exml.plugin.Plugin">
+ <extension type="AdditionalDITAOT" path="dita-ot-3.x" description="DITA OT 3.x"/>
+</plugin>
