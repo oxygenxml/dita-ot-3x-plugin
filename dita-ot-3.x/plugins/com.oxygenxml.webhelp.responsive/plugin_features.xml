@@ -1,0 +1,11 @@
+<feature extension="package.support.name" value="Oxygen XML Editor Support"/>
+<feature extension="package.support.email" value="support@oxygenxml.com"/>
+<feature extension="package.version" value="20.0"/>
+
+<feature extension="dita.conductor.transtype.check" value="webhelp-responsive" type="txt"/>
+<feature extension="dita.conductor.transtype.check" value="webhelp-responsive-preprocess2" type="txt"/>
+
+<feature extension="dita.conductor.target.relative" value="integrator.xml" type="file"/>
+
+<feature extension="dita.conductor.lib.import" file="lib/ant-contrib-1.0b3.jar" type="file"/>
+<feature extension="dita.xsl.strings" file="oxygen-webhelp/resources/localization/strings.xml"/>

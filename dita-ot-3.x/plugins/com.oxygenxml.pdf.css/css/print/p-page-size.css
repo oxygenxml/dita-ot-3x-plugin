@@ -1,0 +1,16 @@
+/*
+ * =====================================================
+ * 
+ * Page size, margins, borders, etc..
+ * =====================================================
+ */
+
+@page {
+    padding-top:0.2em;
+    padding-bottom:0.2em;
+    /* Letter 8.5in 11in */
+	/* The maximum width of images is set to this page size minus the lateral margins: 6.5in. See p-images.css .*/
+    size: us-letter;
+    margin: 1in;
+}
+

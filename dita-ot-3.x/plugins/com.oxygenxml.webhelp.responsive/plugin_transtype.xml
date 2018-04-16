@@ -1,0 +1,259 @@
+<transtype name="webhelp-responsive" extends="webhelp-responsive-common" desc="WebHelp Responsive"/>
+<transtype name="webhelp-responsive-common" extends="webhelpCommons" abstract="true">
+    <param name="webhelp.topic.collapsible.elements.initial.state"
+        desc="Set the inital state of collapsible elements."
+        type="enum">
+        <val default="true">expanded</val>
+        <val>collapsed</val>
+    </param>
+    <param name="webhelp.logo.image"
+        desc="The URL of a remote file or the file path of a local file that contains the logo image that will be added in the header area."
+        type="file"/>
+    <param name="webhelp.logo.image.target.url"
+        desc="The URL of the link that will be opened when the user clicks the logo image."
+        type="string"/>
+    <param name="webhelp.search.ranking"
+        desc="If this parameter is set to false, then the 5-star rating mechanism is no longer included in the search results that are displayed on the Search tab (default setting is true)."
+        type="enum">
+        <val default="true">true</val>
+        <val>false</val>
+    </param>
+    <param name="webhelp.fragment.welcome"
+        desc="Specifies either an XHTML fragment or the path to an XHTML file. It displays the given XHTML content as welcome message in the main page of the generated output."
+        type="file">
+    </param>    
+    <param name="webhelp.top.menu.depth"
+        desc="Specifies the maximum depth of the topics top menu."
+        type="string">
+        <val desc="The menu has unlimited depth.">0</val>
+        <val default="true">3</val>
+    </param>
+    <param name="webhelp.show.main.page.tiles"
+        desc="Specifies if topic tiles will be presented in the main page."
+        type="enum">
+        <val default="true">no</val>
+        <val>yes</val>
+    </param>    
+    <param name="webhelp.show.main.page.toc"
+        desc="Specifies if Table of Contents (TOC) will be presented in the main page in a tree like (accordion) fashion."
+        type="enum">
+        <val default="true">yes</val>
+        <val>no</val>
+    </param>
+    <param name="webhelp.show.breadcrumb"
+        desc="Specifies if the breadcrumb component will be presented in the Webhelp Responsive output."
+        type="enum">
+        <val default="true">yes</val>
+        <val>no</val>
+    </param>
+    <param name="webhelp.show.navigation.links"
+        desc="Specifies if the navigation links component will be presented in the Webhelp Responsive output."
+        type="enum">
+        <val default="true">yes</val>
+        <val>no</val>
+    </param>
+    <param name="webhelp.show.print.link"
+        desc="Specifies if the print link component will be presented in the Webhelp Responsive output."
+        type="enum">
+        <val default="true">yes</val>
+        <val>no</val>
+    </param>
+    <param name="webhelp.show.expand.collapse.sections"
+        desc="Specifies if the Expand/Collapse Sections button will be presented in the Webhelp Responsive output."
+        type="enum">
+        <val default="true">yes</val>
+        <val>no</val>
+    </param>
+    <param name="webhelp.show.indexterms.link"
+        desc="Specifies if the link to the index terms will be presented in the Webhelp Responsive output."
+        type="enum">
+        <val default="true">yes</val>
+        <val>no</val>
+    </param>
+    <param name="webhelp.show.topic.toc"
+        desc="Specifies if the topic page TOC component will be presented in the Webhelp Responsive output."
+        type="enum">
+        <val default="true">yes</val>
+        <val>no</val>
+    </param>
+    <param name="webhelp.publication.toc.hide.chunked.topics"
+        desc="Specifies if the Publication TOC component will contain links for the chunked topics."
+        type="enum">
+        <val default="true">yes</val>
+        <val>no</val>
+    </param>
+    <param name="webhelp.show.publication.toc"
+        desc="Specifies if the Publication TOC component will be presented in the Webhelp Responsive output for 'topic' files."
+        type="enum">
+        <val default="true">yes</val>
+        <val>no</val>
+    </param>
+    <param name="webhelp.publication.toc.links"
+        desc="Specifies which links will be included in the Publication TOC of each topic."
+        type="enum">
+        <val desc="The Publication TOC will include only the links to the current topic and its children.">topic</val>
+        <val desc="The Publication TOC will include the links to the current topic, its children, and its ancestors." default="true">chapter</val>
+        <val desc="The Publication TOC will include all links.">all</val>
+    </param>
+    
+    <param name="webhelp.show.top.menu"
+        desc="Specifies if the top menu component will be presented in the Webhelp Responsive output."
+        type="enum">
+        <val default="true">yes</val>
+        <val>no</val>
+    </param>
+    <param name="webhelp.show.related.links"
+        desc="Specifies if the related links component will be presented in the Webhelp Responsive output."
+        type="enum">
+        <val default="true">yes</val>
+        <val>no</val>
+    </param>
+    <param name="webhelp.merge.nested.topics.related.links"
+        desc="Specifies if the related links from the nested topics of will be merged with the links in the parent topic.
+        Thus the links will be moved from the topic content to the related links component."
+        type="enum">
+        <val default="true">yes</val>
+        <val>no</val>
+    </param>
+    <param name="webhelp.show.child.links"
+        desc="Specifies if the child links component will be presented in the Webhelp Responsive output."
+        type="enum">
+        <val default="true">no</val>
+        <val>yes</val>
+    </param>
+    <param name="webhelp.show.toggle.highlights"
+        desc="Specifies if the toggle highlights component will be presented in the Webhelp Responsive output."
+        type="enum">
+        <val default="true">yes</val>
+        <val>no</val>
+    </param>
+    <param name="webhelp.fragment.footer"
+        desc="Specifies either an XHTML fragment or the path to an XHTML file. It displays the given XHTML content as footer in all generated WebHelp pages."
+        type="file">
+        <val default="true">
+            Generated by &lt;a class="oxyFooter" href="http://www.oxygenxml.com/xml_webhelp.html" target="_blank"&gt;
+            &amp;lt;oXygen/&amp;gt; XML WebHelp
+            &lt;/a&gt;
+        </val>            
+    </param>
+    
+    <!-- Before & after logo and title -->
+    <param name="webhelp.fragment.before.logo_and_title"
+        desc="Specifies either an XHTML fragment or the path to an XHTML file. It displays the given XHTML content before the logo and title in all generated WebHelp pages."
+        type="file">
+        <val default="true"></val>            
+    </param>
+    <param name="webhelp.fragment.after.logo_and_title"
+        desc="Specifies either an XHTML fragment or the path to an XHTML file. It displays the given XHTML content after the logo and title in all generated WebHelp pages."
+        type="file">
+        <val default="true"></val>            
+    </param>
+    
+    <!-- Before & after top menu -->
+    <param name="webhelp.fragment.before.top_menu"
+        desc="Specifies either an XHTML fragment or the path to an XHTML file. It displays the given XHTML content before the top menu in all generated WebHelp pages."
+        type="file">
+        <val default="true"></val>            
+    </param>
+    <param name="webhelp.fragment.after.top_menu"
+        desc="Specifies either an XHTML fragment or the path to an XHTML file. It displays the given XHTML content after the top menu in all generated WebHelp pages."
+        type="file">
+        <val default="true"></val>            
+    </param>
+    
+    <!-- html head -->
+    <param name="webhelp.fragment.head"
+        desc="Specifies either an XHTML fragment or the path to an XHTML file. It inserts the given XHTML content in the 'head' element of all generated WebHelp pages."
+        type="file">
+        <val default="true"></val>            
+    </param>
+    
+    <!-- Before & after html -->
+    <param name="webhelp.fragment.before.body"
+        desc="Specifies either an XHTML fragment or the path to an XHTML file. The XHTML content will be included at the beginning of the html 'body' element in all generated WebHelp pages."
+        type="file">
+        <val default="true"></val>            
+    </param>
+    <param name="webhelp.fragment.after.body"
+        desc="Specifies either an XHTML fragment or the path to an XHTML file. The XHTML content will be included at the end of the html 'body' element in all generated WebHelp pages."
+        type="file">
+        <val default="true"></val>            
+    </param>
+    
+    <!-- Before & after the main page search component -->
+    <param name="webhelp.fragment.before.main.page.search"
+        desc="Specifies either an XHTML fragment or the path to an XHTML file. It displays the given XHTML content before the search field in all generated WebHelp pages."
+        type="file">
+        <val default="true"></val>            
+    </param>
+    <param name="webhelp.fragment.after.main.page.search"
+        desc="Specifies either an XHTML fragment or the path to an XHTML file. It displays the given XHTML content after the search field in all generated WebHelp pages."
+        type="file">
+        <val default="true"></val>            
+    </param>
+    
+    <!-- Before & after the toc or tiles component -->
+    <param name="webhelp.fragment.before.toc_or_tiles"
+        desc="Specifies either an XHTML fragment or the path to an XHTML file. It displays the given XHTML content in the main page of the generated WebHelp output, before the table of contents or tiles component."
+        type="file">
+        <val default="true"></val>            
+    </param>
+    <param name="webhelp.fragment.after.toc_or_tiles"
+        desc="Specifies either an XHTML fragment or the path to an XHTML file. It displays the given XHTML content in the main page of the generated WebHelp output, after the table of contents or tiles component."
+        type="file">
+        <val default="true"></val>            
+    </param>
+    
+    <param name="webhelp.enable.search.autocomplete"
+        desc="Specifies if autocomplete feature is enabled in the WebHelp search text field."        
+        type="enum">
+        <val default="true">yes</val>
+        <val>no</val>
+    </param>
+    
+    <param name="webhelp.publishing.template"
+        desc="Specifies the path to the folder containing the custom WebHelp Responsive template."        
+        type="file"/>        
+    
+    <param name="webhelp.publishing.template.descriptor"
+        desc="Specifies the name of the descriptor to be loaded from the WebHelp Responsive template package. 
+        If it is not specified, the first encountered descriptor will be automatically loaded."        
+        type="string"/>
+    
+    <param name="webhelp.publication.toc.tooltip.position" 
+        desc="Specifies the tooltip position relative to the current topic in the Publication TOC."
+        type="enum">
+        <val default="true">right</val>
+        <val>left</val>
+        <val>top</val>
+        <val>bottom</val>
+        <val>hidden</val>
+    </param>
+    
+    <!-- List of deprecated parameters -->
+    <param name="args.hdf" desc="DEPRECATED: Use webhelp.fragment.head instead." type="file"/>
+    <param name="args.hdr" desc="DEPRECATED: Use webhelp.fragment.before.body instead." type="file"/>
+    
+    <param name="webhelp.search.enable.pagination"
+        desc="Specifies if search result items will be displayed on multiple pages or not."        
+        type="enum">
+        <val default="true">yes</val>
+        <val>no</val>
+    </param>    
+    <param name="webhelp.search.page.numberOfItems"
+        desc="Specifies the number of search results items displayed on each page. 
+        This parameter is used only when the 'webhelp.search.enable.pagination' parameter is enabled."
+        type="string">
+        <val>5</val>
+        <val default="true">10</val>
+        <val>20</val>
+    </param>
+    <param name="webhelp.default.collection.type.sequence"
+        desc="Specifies if the 'sequence' value will be used by default when the collection-type attribute is not specified.
+        This option is helpful if you want to have 'Next' and 'Previous' navigational buttons generated for all HTML pages."
+        type="enum">
+        <val default="true">no</val>
+        <val>yes</val>
+    </param>
+</transtype>
+    

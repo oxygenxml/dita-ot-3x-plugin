@@ -1,0 +1,34 @@
+
+/*
+ * =====================================================
+ * 
+ * Rules for avoiding breaking the pages in unexpected 
+ * places (between titles and content for instance )
+ * 
+ * =====================================================
+ */
+*[class ~= "topic/title"] {
+    page-break-after:avoid;
+}
+*[class ~= "topic/row"] {
+    page-break-inside:avoid;
+}
+*[class ~= "topic/strow"] {
+    page-break-inside:avoid;
+}
+*[class ~= "topic/fig"] {
+    page-break-inside:avoid;
+}
+
+/*
+ * Forced page breaks.
+ */
+*[outputclass ~= "page-break-before"] {
+    page-break-before:always;    
+}
+*[outputclass ~= "page-break-after"] {
+    page-break-after:always;
+}
+*[outputclass ~= "page-break-avoid"] {
+    page-break-inside:avoid;
+}

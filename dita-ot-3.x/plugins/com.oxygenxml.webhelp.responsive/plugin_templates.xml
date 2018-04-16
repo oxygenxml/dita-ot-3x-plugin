@@ -1,0 +1,8 @@
+<template file="xsl/dita2webhelp/dita2webhelp_template.xsl"/>
+<template file="xsl/navLinks/tocDita_template.xsl"/>
+
+<template file="xsl/mainFiles/createMainPage_template.xsl"/>
+<template file="xsl/mainFiles/createSearchPage_template.xsl"/>
+<template file="xsl/mainFiles/createIndextermsPage_template.xsl"/>
+
+<template file="build_dita_template.xml"/>

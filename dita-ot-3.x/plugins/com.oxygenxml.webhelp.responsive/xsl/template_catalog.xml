@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    
+    <!-- com.oxygenxml.webhelp.xsl.dita2webhelp.xsl extension point -->
+    <uri name="template:xsl/com.oxygenxml.webhelp.xsl.dita2webhelp" 
+        uri="extensions/com.oxygenxml.webhelp.xsl.dita2webhelp.xsl"/>
+    
+    <!-- com.oxygenxml.webhelp.xsl.createMainPage extension point -->
+    <uri name="template:xsl/com.oxygenxml.webhelp.xsl.createMainPage" 
+        uri="extensions/com.oxygenxml.webhelp.xsl.createMainPage.xsl"/>
+    
+    <!-- com.oxygenxml.webhelp.xsl.createSearchPage extension point -->
+    <uri name="template:xsl/com.oxygenxml.webhelp.xsl.createSearchPage" 
+        uri="extensions/com.oxygenxml.webhelp.xsl.createSearchPage.xsl"/>
+    
+    <!-- com.oxygenxml.webhelp.xsl.createIndexTermsPage extension point -->
+    <uri name="template:xsl/com.oxygenxml.webhelp.xsl.createIndexTermsPage" 
+        uri="extensions/com.oxygenxml.webhelp.xsl.createIndexTermsPage.xsl"/>
+</catalog>
