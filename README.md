@@ -4,7 +4,7 @@ Oxygen XML Editor version 20 plugin which adds capabilities for publishing using
 How to install
 --------------
 1. In Oxygen, go to **Help->Install new add-ons** to open an add-on selection dialog box.
-2. Enter or paste https://raw.githubusercontent.com/oxygenxml/dita-ot-3x-plugin/master/build/addon.xml in the **Show add-ons from** field.
+2. Enter or paste https://raw.githubusercontent.com/oxygenxml/dita-ot-3x-plugin/master/add-on.xml in the **Show add-ons from** field.
 3. Select the **DITA OT 3.x** add-on and click Next.
 4. Select the **I accept all terms of the end user license agreement** option and click **Finish**.
 5. Restart the application.
