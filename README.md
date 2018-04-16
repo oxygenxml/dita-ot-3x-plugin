@@ -15,4 +15,5 @@ Copyright and License
 ---------------------
 Copyright 2018 Syncro Soft SRL.
 
-This project is licensed under [Apache License 2.0](https://github.com/oxygenxml/dita-ot-3x-plugin/blob/master/LICENSE)
+This Plug-In is part of the Oxygen XML Software and, as such, is part of the License Agreement 
+governing the Oxygen XML Software. 
