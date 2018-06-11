@@ -4,7 +4,7 @@
  id="com.oxygenxml.dita.ot.3_x"
  name="DITA OT 3.x"
  description="Contribute DITA OT 3.x for publishing DITA content from Oxygen"
- version="1.0"
+ version="1.1"
  vendor="Syncro Soft"
  class="ro.sync.exml.plugin.Plugin">
  <extension type="AdditionalDITAOT" path="dita-ot-3.x" description="DITA OT 3.x"/>

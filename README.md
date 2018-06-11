@@ -1,5 +1,5 @@
 # dita-ot-3x-plugin
-Oxygen XML Editor version 20 plugin which adds capabilities for publishing using DITA OT 3.x
+Oxygen XML Editor version 20 plugin which adds capabilities for publishing using DITA OT 3.x (DITA Open Toolkit version 3.1)
 
 How to install
 --------------
