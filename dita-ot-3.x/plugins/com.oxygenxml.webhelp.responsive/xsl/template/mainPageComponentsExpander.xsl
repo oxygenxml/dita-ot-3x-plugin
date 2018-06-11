@@ -16,6 +16,7 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
   xmlns:html="http://www.w3.org/1999/xhtml"
   exclude-result-prefixes="#all" version="2.0">
   
+  <xsl:import href="commonComponentsExpander.xsl"/>
   <xsl:import href="mainPageLinks.xsl"/> 
   
   <!--
@@ -314,18 +315,24 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
     <xsl:variable name="hasChildTopics" select="count(toc:topic) > 0"/>
     
     <xsl:choose>
-      <xsl:when test="$applyRecursion and $hasChildTopics">
+      <xsl:when test="$applyRecursion and $hasChildTopics"> 
+        <xsl:variable name="headingID" select="concat(@wh-toc-id, '-heading')"/>
+        <xsl:variable name="entriesID" select="concat(@wh-toc-id, '-entries')"/>
         <div class=" wh_main_page_toc_accordion_header ">          
-          <xsl:call-template name="createTOCContent">
-            <xsl:with-param name="cTopic" select="."/>
-            <xsl:with-param name="title" select="$title"/>
-          </xsl:call-template>
+          <span role="heading" aria-level="1" id="{$headingID}">
+            <span role="button" aria-expanded="false" class="header-button" aria-controls="{$entriesID}" tabindex="0">
+              <xsl:call-template name="createTOCContent">
+                <xsl:with-param name="cTopic" select="."/>
+                <xsl:with-param name="title" select="$title"/>
+              </xsl:call-template>
+            </span>
+          </span>
           <xsl:call-template name="generateTopicShortDesc">
             <xsl:with-param name="cTopic" select="."/>
             <xsl:with-param name="class" select="'wh_toc_shortdesc'"/>
           </xsl:call-template>          
         </div>
-        <div class=" wh_main_page_toc_accordion_entries ">
+        <div class=" wh_main_page_toc_accordion_entries " id="{$entriesID}" role="region" aria-labelledby="{$headingID}">
           <xsl:apply-templates mode="#current"/>
         </div>
       </xsl:when>

@@ -53,7 +53,7 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
       <param name="XHTML_FOLDER" expression="${input.dir}"/>
       <param name="OUTPUTDIR" expression="${output.dir}"/>
       <param name="BASEDIR" expression="${base.dir}"/>
-      <param name="DEFAULTLANG" expression="${args.default.language}" if="args.default.language"/>
+      <param name="DEFAULTLANG" expression="${default.language}" if="default.language"/>
     </xslt>
     <replaceregexp 
         file="${output.dir}/index.html"

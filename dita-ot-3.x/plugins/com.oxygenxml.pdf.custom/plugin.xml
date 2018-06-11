@@ -5,7 +5,7 @@
   <feature extension="package.support.email" value="support@oxygenxml.com"/>
   
   <feature extension="dita.conductor.pdf2.param" file="extensionParameters.xml"/>
-  <feature extension="package.version" value="20.0"/>
+  <feature extension="package.version" value="20.1"/>
   <feature extension="dita.xsl.xslfo" value="custom.xsl" type="file"/>
   <feature extension="depend.org.dita.pdf2.init.pre" value="oxygenCopyNoteImages" type="text"/>
   <feature extension="dita.conductor.target.relative" file="conductor.xml"/>

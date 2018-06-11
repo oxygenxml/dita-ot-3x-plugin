@@ -15,7 +15,7 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
     xpath-default-namespace="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/xhtml"
     version="2.0">
     
-    <xsl:include href="commonComponentsExpander.xsl"/>
+    <xsl:import href="commonComponentsExpander.xsl"/>
     
     <xsl:variable name="VOID_HREF" select="'javascript:void(0)'"/>
     
@@ -40,8 +40,8 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
                     <!-- Merge the attributes from the template body element with attributes from the body element produced by DITA-OT-->
                     <xsl:variable name="mergedAttributes"
                         select="oxy:mergeHTMLAttributes('body', @*, $ditaot_body/@*)"/>
-                    <xsl:copy-of select="$mergedAttributes"/>
-                                        
+                    <xsl:apply-templates select="$mergedAttributes" mode="copy_template"/>                    
+                    
                     <xsl:apply-templates select="node()" mode="#current"/>
                 </xsl:when>
                 <xsl:otherwise>
@@ -51,7 +51,69 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
             </xsl:choose>
         </xsl:copy>
     </xsl:template>
-
+  
+    <!-- WH-1859: Update the amount of Bootstrap grid columns assigned to the topic content. The Publication TOC or the Topic TOC  might not be generated. -->
+    <xsl:template match="div[contains(@class, 'wh_content_area')]" mode="copy_template">
+      <xsl:variable name="contentArea">
+        <xsl:copy>
+          <xsl:apply-templates select="@* | node()" mode="#current"/>
+        </xsl:copy>
+      </xsl:variable>
+      <xsl:apply-templates select="$contentArea" mode="fix-content-width">
+          <xsl:with-param name="contentArea" select="$contentArea" tunnel="yes"/>
+      </xsl:apply-templates>
+    </xsl:template>
+    
+    <xsl:template match="node() | @*" mode="fix-content-width">
+        <xsl:copy>
+            <xsl:apply-templates select="node() | @*" mode="fix-content-width"/>
+        </xsl:copy>
+    </xsl:template>
+    
+    <xsl:template match="div[@id='wh_topic_body'][contains(@class, 'col-')]" mode="fix-content-width">
+        <xsl:param name="contentArea" tunnel="yes"/>
+        <xsl:variable name="publicationToc" select="$contentArea//div[contains(@class, 'wh_publication_toc')]"/>
+        <xsl:variable name="topicToc" select="$contentArea//div[contains(@class, 'wh_topic_toc')]"/>
+        
+        <xsl:variable name="newClassValue">
+            <xsl:choose>
+                <xsl:when test="exists($publicationToc) and exists($topicToc)">
+                    <xsl:value-of select="@class"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:variable name="nonBootstrapClassValues">
+                        <xsl:for-each select="tokenize(@class, ' ')">
+                            <xsl:if test="not(starts-with(.,'col-'))">
+                                <xsl:value-of select="concat(' ', .)"/>
+                            </xsl:if>
+                        </xsl:for-each>
+                    </xsl:variable>
+                    <xsl:choose>
+                        <xsl:when test="not(exists($publicationToc)) and not(exists($topicToc))">
+                            <!-- No Publication TOC & no Topic TOC -->
+                            <xsl:value-of select="concat('col-lg-12 col-md-12 col-sm-12 col-xs-12', $nonBootstrapClassValues)"/>
+                        </xsl:when>
+                        <xsl:when test="exists($publicationToc)">
+                            <!-- Only Publication TOC exists -->
+                            <xsl:value-of select="concat('col-lg-9 col-md-9 col-sm-9 col-xs-12', $nonBootstrapClassValues)"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <!-- Only Topic TOC exists -->
+                            <xsl:value-of select="concat('col-lg-10 col-md-10 col-sm-10 col-xs-12', $nonBootstrapClassValues)"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        
+        <xsl:copy>
+            <xsl:attribute name="class" select="$newClassValue"/>
+            <xsl:apply-templates select="@* except @class" mode="#current"/>
+            <xsl:apply-templates select="node()" mode="#current"/>
+        </xsl:copy>
+    </xsl:template>
+    <!-- End of fix for the Topic content width -->
+    
     <xsl:template match="whc:webhelp_topic_content" mode="copy_template">
         <xsl:param name="ditaot_topicContent" tunnel="yes"/>
         <xsl:choose>
@@ -351,12 +413,12 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
         </li>
     </xsl:template>
     <xsl:template match="*[contains(@class, 'topictitle') and not(contains(@class, 'topictitle1'))]" priority="9" mode="generate-topic-toc">
-        <div class="topic-title">
+        <li class="topic-title">
             <xsl:variable name="parrentId" select="../@id"/>
             <a href="#{$parrentId}" data-tocid="{$parrentId}">
                 <xsl:apply-templates mode="copy-topic-title"/>
             </a>
-        </div>
+        </li>
     </xsl:template>
     <xsl:template match="*[@class = 'section']" priority="12" mode="generate-topic-toc">
         <li class="section-item">
@@ -374,13 +436,13 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
         </li>
     </xsl:template>
     <xsl:template match="*[contains(@class, 'sectiontitle')]" mode="generate-topic-toc" priority="8">
-        <div class="section-title">
+        <li class="section-title">
             <xsl:variable name="nodeId" select="../@id"/>
             <!--<xsl:variable name="parrentId" select="../@id"/>-->
             <a href="#{$nodeId}" data-tocid="{$nodeId}">
                <xsl:apply-templates mode="copy-topic-title"/>
             </a>
-        </div>
+        </li>
     </xsl:template>
     <xsl:template match="*" mode="generate-topic-toc" priority="0">
         <xsl:apply-templates mode="#current"/>
@@ -535,7 +597,7 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
         
         Avoid external references and void (fake) links.
     -->
-    <xsl:template match="a[@href][@href != $VOID_HREF][not(@data-scope='external')]" mode="copy-sidetoc copy-breadcrumb">
+    <xsl:template match="a[@href][@href != $VOID_HREF][not(@data-scope='external')][not(starts-with(@href, 'http://') or starts-with(@href, 'https://'))]" mode="copy-sidetoc copy-breadcrumb">
         <xsl:copy>
             <xsl:attribute name="href" select="concat($PATH2PROJ, @href)"/>
             <xsl:apply-templates select="node() | @* except @href" mode="#current"/>
@@ -598,7 +660,7 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
                 <!-- Copy attributes -->
                 <xsl:copy-of select="@* except @class"/>
                 
-                <a href="javascript:window.print();" title="{$printThisPage}"/>
+                <button onClick="window.print()" title="{$printThisPage}" aria-label="{$printThisPage}" />
             </div>
         </xsl:if>
     </xsl:template>
@@ -620,7 +682,7 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
                 </xsl:choose>
             </xsl:variable>
             
-            <button class="webhelp_expand_collapse_sections" data-next-state="collapsed" title="{$expandCollapseSections}"></button>
+            <button class="webhelp_expand_collapse_sections" data-next-state="collapsed" aria-label="{$expandCollapseSections}" title="{$expandCollapseSections}"></button>
         </xsl:if>        
     </xsl:template>
 
@@ -641,7 +703,7 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
                 </xsl:choose>
             </xsl:variable>
             
-            <button class="wh_hide_highlight" title="{$toggleHighlights}"></button>
+            <button class="wh_hide_highlight"  aria-label="{$toggleHighlights}" title="{$toggleHighlights}"></button>
         </xsl:if>        
     </xsl:template>
 
@@ -680,10 +742,10 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
             <xsl:choose>
                 <xsl:when test="exists($ditaot_topicContent/html:html)">
                     <!-- EXM-36308 - Merge attributes -->
-                    <xsl:copy-of select="oxygen:mergeHTMLAttributes(
+                    <xsl:apply-templates select="oxygen:mergeHTMLAttributes(
                         'html', 
-                        ./@*, 
-                        $ditaot_topicContent/html:html/@*)"/>          
+                        @*, 
+                        $ditaot_topicContent/html:html/@*)" mode="copy_template"/>          
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:apply-templates select="@*" mode="#current"/>
@@ -719,6 +781,19 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
         <xsl:copy>
             <xsl:apply-templates select="node() | @*" mode="#current"/>
         </xsl:copy>
+    </xsl:template>
+    
+    <!-- Expands a 'topic-xpath' macro. -->
+    <xsl:template name="wh-macro-topic-xpath">
+        <xsl:param name="params"/>
+        <xsl:variable name="xpathExpr" as="xs:string" select="$params[1]"/>
+        <xsl:variable name="cTopicPath" as="xs:string" select="concat($TEMPDIR, '/', $FILEDIR, '/', $FILENAME)"/>
+        <xsl:variable name="cTopicUrl" select="relpath:toUrl($cTopicPath)"/>
+               
+        <xsl:call-template name="wh-execute-macro-xpath">
+            <xsl:with-param name="xpathExpression" select="$xpathExpr"/>
+            <xsl:with-param name="fileUrl" select="$cTopicUrl"/>
+        </xsl:call-template>
     </xsl:template>
 
 </xsl:stylesheet>

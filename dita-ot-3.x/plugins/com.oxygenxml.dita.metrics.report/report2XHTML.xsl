@@ -85,8 +85,21 @@ th{padding:4px}
         <xsl:param name="label"/>
         <xsl:param name="number" select="."/>
         <xsl:param name="doc"/>
+        <xsl:param name="presentAsLink" select="false()"/>
         <tr>
-            <td title="{$doc}"><xsl:value-of select="$label"/></td>
+            <td title="{$doc}">
+                <xsl:choose>
+                    <xsl:when test="$presentAsLink">
+                      <xsl:element name="a">
+                          <xsl:attribute name="href" select="$label"/>
+                          <xsl:value-of select="$label"/>
+                      </xsl:element>  
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="$label"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+                </td>
             <td align="right"><xsl:value-of select="format-number($number, '###,###,###')"/></td>
         </tr>
     </xsl:template>
@@ -604,6 +617,7 @@ th{padding:4px}
         <xsl:call-template name="showInfo">
             <xsl:with-param name="label" select="."/>
             <xsl:with-param name="number" select="@count"/>
+            <xsl:with-param name="presentAsLink" select="true()"></xsl:with-param>
         </xsl:call-template>
     </xsl:template>
     

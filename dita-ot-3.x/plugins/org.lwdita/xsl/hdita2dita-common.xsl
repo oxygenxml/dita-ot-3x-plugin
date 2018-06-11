@@ -7,8 +7,6 @@
                 xpath-default-namespace="http://www.w3.org/1999/xhtml"
                 version="2.0">
 
-  <xsl:import href="classpath:///utils.xsl"/>
-
   <!-- Topic -->
 
   <xsl:template match="html">
@@ -397,6 +395,7 @@
     </i>
   </xsl:template>
   <xsl:template match="a">
+    <xsl:variable name="href" select="lower-case(if (contains(@href, '#')) then substring-before(@href, '#') else @href)"/>
     <xref>
       <xsl:apply-templates select="." mode="class"/>
       <xsl:if test="@data-keyref">
@@ -410,12 +409,20 @@
         <xsl:when test="@type">
           <xsl:attribute name="format" select="@type"/>
         </xsl:when>
-        <xsl:when test="ends-with(lower-case(@href), '.md')">
+        <xsl:when test="ends-with($href, '.md')">
           <xsl:attribute name="format">markdown</xsl:attribute>
         </xsl:when>
-        <xsl:when test="ends-with(lower-case(@href), '.dita') or ends-with(lower-case(@href), '.xml')"/>
+        <xsl:when test="ends-with($href, '.dita') or ends-with($href, '.xml')"/>
         <xsl:when test="@href">
-          <xsl:attribute name="format" select="replace(lower-case(@href), '^.+\.(.+?)$', '$1')"/>
+          <xsl:attribute name="format">
+            <xsl:variable name="path" select="if (contains($href, '://'))
+                                              then tokenize(substring-after($href, '://'), '/')[position() gt 1]
+                                              else tokenize($href, '/')"/>
+            <xsl:variable name="file" select="$path[position() eq last()]"/>
+            <xsl:value-of select="if (matches($file, '^.+\.(\w+?)$'))
+                                  then replace($file, '^.+\.(\w+?)$', '$1')
+                                  else 'html'"/>
+          </xsl:attribute>
         </xsl:when>
       </xsl:choose>
       <xsl:if test="matches(@href, '^https?://', 'i')">

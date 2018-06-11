@@ -18,15 +18,14 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
   <xsl:import href="../util/relpath_util.xsl"/>
   
   <xsl:import href="../util/fixupNS.xsl"/>
+  
   <!-- Used to expand Webhelp components -->
-  <xsl:import href="../template/commonComponentsExpander.xsl"/>
   <xsl:import href="../template/mainPageComponentsExpander.xsl"/>
 
   <xsl:import href="../util/dita-utilities.xsl"/> 
   <!-- Localization of text strings displayed in Webhelp output. -->
   <xsl:import href="../util/functions.xsl"/>
-  
-  <xsl:include href="../util/macroExpander.xsl"/>
+    
   
   <!-- Declares all available parameters -->
   <xsl:include href="params.xsl"/>
@@ -37,7 +36,8 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
     indent="no"
     doctype-public=""
     doctype-system="about:legacy-compat"
-    omit-xml-declaration="yes"/>
+    omit-xml-declaration="yes"
+    include-content-type="no"/>
   
   <xsl:variable name="toc" select="document(oxygen:makeURL($TOC_XML_FILEPATH))/toc:toc"/>
 
@@ -56,13 +56,17 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
     Creates the index.html 
   -->
   <xsl:template match="/">
-      <xsl:variable name="mainPageTemplate">
-        <xsl:apply-templates select="." mode="fixup_XHTML_NS"/>
-      </xsl:variable>
+    <xsl:variable name="template_base_uri" select="base-uri()"/>
       
+    <xsl:variable name="mainPageTemplate">
+      <xsl:apply-templates select="." mode="fixup_XHTML_NS"/>
+    </xsl:variable>
+    
+    
       <xsl:apply-templates select="$mainPageTemplate" mode="copy_template">
         <!-- EXM-36737 - Context node used for messages localization -->
         <xsl:with-param name="i18n_context" select="$i18n_context/*" tunnel="yes" as="element()"/>
+        <xsl:with-param name="template_base_uri" select="$template_base_uri" tunnel="yes"/>
       </xsl:apply-templates>
   </xsl:template>
 </xsl:stylesheet>

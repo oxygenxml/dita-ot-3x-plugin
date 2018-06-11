@@ -11,8 +11,13 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
   
   <!-- Directory of the Webhelp plugin. -->
   <property name="webhelp.classic.dir" value="${dita.plugin.com.oxygenxml.webhelp.classic.dir}"/>
+  <property name="com.oxygenxml.common.dir" value="${dita.plugin.com.oxygenxml.common.dir}"/>
+  
+  <!-- Directory with files log4j.jar and license.jar. -->
+  <property name="webhelp.lib.dir" value="${com.oxygenxml.common.dir}/lib" />
   
   <import file="build_common.xml"/>
+  
   
   <target name="dita2webhelp-common" 
     dita:depends="webhelp-build-init, {com.oxygenxml.classic.main.target.dependencies}"
@@ -78,7 +83,7 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
   <!-- Declare the foreach and if else tasks. -->
   <taskdef resource="net/sf/antcontrib/antlib.xml">
     <classpath>
-      <pathelement location="${webhelp.classic.dir}/lib/ant-contrib-1.0b3.jar"/>
+      <pathelement location="${com.oxygenxml.common.dir}/lib/ant-contrib-1.0b3.jar"/>
     </classpath>
   </taskdef>
 	
@@ -106,16 +111,26 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
             </then>
          <else>
       	  <if>
-      	    <isset property="args.default.language"/>
+      	    <isset property="default.language"/>
        	    <then>
            		<!-- Use use propertyregex from antcontrib -->
                	<propertyregex property="webhelp.language" 
-               	               input="${args.default.language}" 
+               	               input="${default.language}" 
                  		       regexp="(..)" 
                  		       select="\1"
                  		       defaultvalue="en"
                  		       override="true"/>
        	 	</then>
+      	    <else>
+      	      <if>
+      	        <isset property="args.default.language"/>
+      	        <then>
+      	          <!-- Use use propertyregex from antcontrib -->
+      	          <propertyregex property="webhelp.language" input="${args.default.language}"
+      	            regexp="(..)" select="\1" defaultvalue="en" override="true"/>
+      	        </then>
+      	      </if>
+      	    </else>
     	  </if>
         </else>
        </if>
@@ -230,7 +245,7 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
       <param name="OUTPUTDIR" expression="${output.dir}"/>
       <param name="BASEDIR" expression="${webhelp.classic.dir}"/>
       <param name="OUTEXT" expression="${out.ext}" if="out.ext" />
-      <param name="DEFAULTLANG" expression="${args.default.language}" if="args.default.language"/>
+      <param name="DEFAULTLANG" expression="${webhelp.language}" if="webhelp.language"/>
       <param name="WEBHELP_COPYRIGHT" expression="${webhelp.copyright}" if="webhelp.copyright"/>
       <param name="CSS" expression="${args.css.file}" if="args.css.file"/>
       <param name="CSSPATH" expression="${user.csspath}" if="user.csspath"/>
@@ -333,7 +348,7 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
       <param name="OUTEXT" expression="${out.ext}" if="out.ext"/>
       <param name="BASEDIR" expression="${basedir}"/>
       <param name="OUTPUTDIR" expression="${output.dir}"/>
-      <param name="LANGUAGE" expression="${args.default.language}" if="args.default.language"/>
+      <param name="LANGUAGE" expression="${webhelp.language}" if="webhelp.language"/>
       <param name="DBG" expression="${args.debug}" if="args.debug"/>
       <param name="CSS" expression="${args.css.file}" if="args.css.file"/>
       <param name="CSSPATH" expression="${user.csspath}" if="user.csspath"/>
@@ -357,6 +372,8 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
       <param name="WEBHELP_LOGO_IMAGE" expression="${webhelp.logo.image.output}" if="webhelp.logo.image.output"/>
       <param name="WEBHELP_LOGO_IMAGE_TARGET_URL" expression="${webhelp.logo.image.target.url}" if="webhelp.logo.image.target.url"/>
       <param name="show.changes.and.comments" expression="${webhelp.show.changes.and.comments}"></param>
+      <param name="DEFAULTLANG" expression="${webhelp.language}" if="webhelp.language"/>
+      
       <dita:extension id="dita.conductor.xhtml.param" behavior="org.dita.dost.platform.InsertAction"/>
       <!-- 
         Extension point to pass parameters to the XSLT transformation.
@@ -383,8 +400,8 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
       <param name="OUTEXT" expression="${out.ext}" if="out.ext" />
       <param name="BASEDIR" expression="${basedir}"/>
       <param name="OUTPUTDIR" expression="${output.dir}"/>
-      <param name="LANGUAGE" expression="${args.default.language}" if="args.default.language"/>
-      <param name="DEFAULTLANG" expression="${args.default.language}" if="args.default.language"/>
+      <param name="LANGUAGE" expression="${webhelp.language}" if="webhelp.language"/>
+      <param name="DEFAULTLANG" expression="${webhelp.language}" if="webhelp.language"/>
       <param name="TOC_FILE_NAME" expression="${args.xhtml.toc}${out.ext}" if="args.xhtml.toc"/>
       <param name="contenttarget" expression="${args.xhtml.contenttarget}" if="args.xhtml.contenttarget"/>
       <param name="CSS" expression="${args.css.file}" if="args.css.file" />

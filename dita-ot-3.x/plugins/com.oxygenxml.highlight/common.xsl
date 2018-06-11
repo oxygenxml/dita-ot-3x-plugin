@@ -14,8 +14,7 @@ available in the base directory of this plugin.
   xmlns:saxonb="http://saxon.sf.net/" 
   xmlns:exsl="http://exslt.org/common"
   xmlns:xslthl="http://xslthl.sf.net"
-  xmlns:saxonica="com.saxonica.Transform"
-  xmlns:version="net.sf.saxon.Version"
+  xmlns:version="java:net.sf.saxon.Version"
   exclude-result-prefixes="exsl ConnectorSaxonEE ConnectorSaxonB d"
   version='2.0'>
   

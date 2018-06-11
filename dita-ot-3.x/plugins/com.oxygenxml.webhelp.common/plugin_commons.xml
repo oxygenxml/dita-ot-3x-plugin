@@ -1,14 +1,8 @@
-<feature extension="dita.conductor.transtype.check" value="webhelpCommons" type="txt"/>
+<feature extension="dita.conductor.transtype.check" value="webhelpCommons" type="txt" xml:base="."/>
 
-<feature extension="dita.xsl.maplink" value="xsl/dita/maplinkNextPrevFullIteration.xsl" type="file"/>
+<feature extension="dita.xsl.maplink" value="xsl/dita/maplinkNextPrevFullIteration.xsl" type="file" xml:base="."/>
 
-<feature extension="dita.preprocess.topicpull.param" value="insertParameters.xml" type="file"/>
-
-<!-- TODO: HTML5 change -->
-<feature extension="dita.conductor.html.param" value="insertParameters.xml" type="file"/>
-<feature extension="dita.conductor.xhtml.param" value="insertParameters.xml" type="file"/>
-
-<transtype name="webhelpCommons" extends="base-html" abstract="true">    
+<transtype name="webhelpCommons" extends="base-html" abstract="true" xml:base=".">    
     <param name="webhelp.custom.resources"
         desc="The file path to  a directory that contains resources files. All files from this directory will be copied to the root of the WebHelp output."
         type="dir"/>
@@ -65,11 +59,6 @@
         The value of a &quot;loc&quot; element is composed of the value of the base URL parameter, followed by the value of the href attributes of the topicref elements (a relative file path).  
         The &quot;loc&quot; element is mandatory in the sitemap.xml file. If you leave this parameter set to its default empty value, the sitemap.xml file is not generated."
         type="string"/>
-    <param name="args.default.language"
-        desc="Specifies the language of the UI items displayed (such as labels or buttons) in the WebHelp output."
-        type="string">
-        <val default="true">en-us</val>
-    </param>
     <param name="webhelp.reload.stylesheet"
         desc="Set this parameter if you have out of memory problems generating WebHelp. It will increase processing time but
         decrease the memory footprint."

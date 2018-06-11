@@ -22,7 +22,7 @@
   <!-- <xsl:include href="hi-d2html.xsl"/> -->
   <xsl:include href="learning2domain2html.xsl"/>
   <xsl:include href="mathml-d2html.xsl"/>
-  <xsl:include href="svg-d2html.xsl"/>
+  <!--  <xsl:include href="svg-d2html.xsl"/>-->
   <!--<xsl:include href="xml-d2html.xsl"/>-->
   
   <dita:extension id="xsl.dita13html" 

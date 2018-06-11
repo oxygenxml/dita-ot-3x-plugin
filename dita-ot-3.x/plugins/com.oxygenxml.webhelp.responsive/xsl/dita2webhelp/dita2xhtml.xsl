@@ -13,15 +13,10 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
   xmlns:oxygen="http://www.oxygenxml.com/functions"
   exclude-result-prefixes="oxygen">
   
-  <!-- TODO: HTML5 change -->
-  
-  <!--<!-\- Use XHTML stylesheets for DITA-OT 1.8 -\->
-  <xsl:import href="plugin:org.dita.xhtml:xsl/dita2xhtml.xsl" use-when="starts-with(system-property('DOT_VERSION'), '1.')"/>
-  
-  <!-\- Use HTML5 stylesheets for DITA-OT 2.x or newer -\->
-  <xsl:import href="plugin:org.dita.html5:xsl/dita2html5.xsl" use-when="not(starts-with(system-property('DOT_VERSION'), '1.'))"/>-->
-
+  <!--
   <xsl:import href="plugin:org.dita.xhtml:xsl/dita2xhtml.xsl"/>
+  -->
+  <xsl:import href="plugin:org.dita.html5:xsl/dita2html5Impl.xsl"/>
 
   <xsl:import href="rel-links.xsl"/>
   <xsl:import href="../util/functions.xsl"/>  
@@ -35,14 +30,6 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
   <xsl:param name="OUTPUTDIR"/>
   <xsl:param name="LANGUAGE" select="'en-us'"/>
   
-  <xsl:output 
-            method="xhtml" 
-            encoding="UTF-8"
-            indent="no"
-            doctype-public=""
-            doctype-system="about:legacy-compat"
-            omit-xml-declaration="yes"/>
-
 
   <!-- Transforms oXygen change tracking and review elements to html elements. -->
   <xsl:include href="../review/review-elements-to-html.xsl"/>

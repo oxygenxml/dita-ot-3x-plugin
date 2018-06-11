@@ -233,7 +233,7 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
         </a>
         <xsl:apply-templates select="." mode="add-link-highlight-at-end"/>
         <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
-        <xsl:value-of select="$newline"/>
+        
         <!--add the description on a new line, unlike an info, to avoid issues with punctuation (adding a period)-->
         <xsl:variable name="topicDesc">
             <xsl:apply-templates select="*[contains(@class, ' topic/desc ')]"/>
@@ -241,7 +241,7 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
         <xsl:if test="string-length(normalize-space($topicDesc)) > 0">
             <div><xsl:value-of select="$topicDesc"/></div>
         </xsl:if>
-    </xsl:element><xsl:value-of select="$newline"/>
+    </xsl:element>
 </xsl:template>
   
 </xsl:stylesheet>

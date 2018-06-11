@@ -139,9 +139,7 @@
 *[class~="topic/searchtitle"]:before,
 *[class~="topic/navtitle"]:before {
   display:inline;
-  /* -before_bold- >>> */
   font-weight: bold;
-  /* <<< */
 }
 
 
@@ -159,9 +157,7 @@
 }
 *[class~="topic/shortdesc"]:before {
   display: inline;
-  /* -before_bold- >>> */
   font-weight: bold;
-  /* <<< */
 }
 
 
@@ -182,9 +178,7 @@
 }
 *[class~="topic/abstract"]:before {
   display: inline;
-  /* -before_bold- >>> */
   font-weight: bold;
-  /* <<< */
 }
 
 
@@ -238,9 +232,7 @@
 }
 *[class~="topic/related-links"]:before {
   display: block;
-  /* -before_bold- >>> */
   font-weight: bold;
-  /* <<< */
 }
 
 /* 

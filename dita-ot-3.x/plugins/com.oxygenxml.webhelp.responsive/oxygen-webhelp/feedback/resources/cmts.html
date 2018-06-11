@@ -6,28 +6,28 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
 -->
 
 <style type="text/css">@import "@relPath@/resources/css/jquery.cleditor.css"; </style>
-<style type="text/css">@import "@relPath@/resources/css/jquery.realperson.css"; </style>
 
 <script src="@relPath@/resources/localization/strings.js" charset="utf-8"></script>
 <script src="@relPath@/resources/js/jquery.cleditor.min.js"></script>
 <script src="@relPath@/resources/js/jquery.plugin.min.js" charset="utf-8"></script>
-<script src="@relPath@/resources/js/jquery.realperson.min.js" charset="utf-8"></script>
 
 <div id="loginData" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" id="bt_close_dialog" aria-label="Close dialog">&times;</button>
+                    <script aria-hidden="true">$("#bt_close_dialog").attr("aria-label", getLocalization('label.closeDialog'))</script>
                     <ul class="nav nav-tabs nav-justified">
                         <li class="active">
-        <input type="hidden" id="reloadComments" value="yes"><!----></input>
-                            <a data-toggle="tab" href="#content_login" id="l_login2"></a>
+                            <a data-toggle="tab" href="#content_login" id="l_login2" role="tab" aria-label="Log in"></a>
+                            <script aria-hidden="true">$('#l_login2').attr("aria-label", getLocalization('label.login') );</script>
                         </li>
                         <li>
-                            <a data-toggle="tab" href="#content_signup" id="l_signUp2">Sign Up</a>
+                            <a data-toggle="tab" href="#content_signup" id="l_signUp2" aria-label="Sign up">Sign Up</a>
+                            <script aria-hidden="true">$('#l_signUp2').attr("aria-label", getLocalization('label.signUp'));</script>
                         </li>
                     </ul>
-                    <script>
+                    <script type="text/javascript" aria-hidden="true">
                         $('#l_login2').html(getLocalization('label.login'));
                         $('#l_signUp2').html(getLocalization('label.signUp'));
                     </script>
@@ -40,7 +40,7 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
                             <div class="form-group">
                                 <label for="myUserName"><span id="l_userName"><script>$('#l_userName').html(getLocalization('label.userName'));</script></span>
                                 </label>
-                                <input name="usernameW" type="text" class="form-control" id="myUserName" autocomplete="on" required="required" autofocus="autofocus"><!----></input>
+                                <input name="usernameW" type="text" class="form-control" id="myUserName" autocomplete="on" required="required" ><!----></input>
         </div>
                             <div class="form-group">
                                 <label for="myPassword" id="l_pswd"><script>$('#l_pswd').html(getLocalization('label.pswd'));</script></label>
@@ -133,7 +133,7 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
     <iframe id="passwordIframe" name="passwordIframe" style="display:none"><!----></iframe>
 </div>
 
-<div id="commentsContainer">
+<div id="commentsContainer" tabindex="0">
 
     <div class="modal fade" id="u_Profile" role="dialog">
         <form action="" enctype="application/x-www-form-urlencoded" method="post">
@@ -148,23 +148,23 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
                         <div id="u_response" class="u_response text-center"></div>
 
                         <div class="form-group">
-                            <label for="l_CPwd">
-                                <span id="l_CPwd"></span> <span class="red">*</span>
-                                <script>$('#l_CPwd').html(getLocalization('label.currentPwd'));</script>
+                            <label for="u_Cpass">
+                                <span id="l_CPwd"></span> <span class="red" aria-label="Required">*</span>
+                                <script aria-hidden="true">$('#l_CPwd').html(getLocalization('label.currentPwd'));</script>
                             </label>
                             <input name="u_Cpass" type="password" class="form-control" id="u_Cpass" autocomplete="on" required="required" autofocus="autofocus" />
                         </div>
                         <div class="form-group">
-                            <label for="l_name">
+                            <label for="u_name">
                                 <span id="l_name"></span>
-                                <script>$('#l_name').html(getLocalization('label.yourName'));</script>
+                                <script aria-hidden="true">$('#l_name').html(getLocalization('label.yourName'));</script>
                             </label>
                             <input name="u_name" type="text" class="form-control" id="u_name" autocomplete="on"/>
                         </div>
                         <div class="form-group">
-                            <label for="l_email">
-                                <span id="l_email"></span> <span class="red">*</span>
-                                <script>$('#l_email').html(getLocalization('label.yourEmail'));</script>
+                            <label for="u_email">
+                                <span id="l_email"></span> <span class="red" aria-label="Required">*</span>
+                                <script aria-hidden="true">$('#l_email').html(getLocalization('label.yourEmail'));</script>
                             </label>
                             <input name="u_email" type="text" class="form-control" id="u_email" autocomplete="on" required="required"/>
                         </div>
@@ -182,7 +182,7 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
                             </div>
                         </div>
 
-                        <script>
+                        <script aria-hidden="true">
                             $('#l_wantEmail').html(getLocalization('label.IwantEmail'));
                             $('#l_cmtPage').html(getLocalization('label.commentPage'));
                             $('#l_cmtTopic').html(getLocalization('label.commentTopic'));
@@ -190,17 +190,17 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
                         </script>
 
                         <div class="form-group">
-                            <label for="l_newPwd">
+                            <label for="u_pass">
                                 <span id="l_newPwd"></span>
-                                <script>$('#l_newPwd').html(getLocalization('label.newPwd'));</script>
+                                <script aria-hidden="true">$('#l_newPwd').html(getLocalization('label.newPwd'));</script>
                             </label>
                             <input name="u_pass" type="password" class="form-control" id="u_pass" autocomplete="on"/>
                         </div>
 
                         <div class="form-group">
-                            <label for="l_reNew">
+                            <label for="u_pass1">
                                 <span id="l_reNew"></span>
-                                <script>$('#l_reNew').html(getLocalization('label.reNewPwd'));</script>
+                                <script aria-hidden="true">$('#l_reNew').html(getLocalization('label.reNewPwd'));</script>
                             </label>
                             <input name="u_pass1" type="password" class="form-control" id="u_pass1" autocomplete="on"/>
                         </div>
@@ -222,7 +222,7 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
         </form>
     </div>
 
-    <div id="comments">
+    <div id="comments" tabindex="0">
         <div class="cmTitle">
             <span id="cm_count"></span>
 		    <span id="cm_title">
@@ -312,26 +312,21 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
         <form action="" onsubmit="return postNewComment(pagePath);" enctype="application/x-www-form-urlencoded" method="post" name="form_newCmt">
             <textarea rows="7" cols="70" name="commentText" id="commentText"></textarea>
 
-            <div class="captcha" id="o_captcha">
-                <span id="l_captcha">Enter the captcha code seen below:</span> <span class='red'>*</span>
-                <input type="hidden" class="realperson-hash" name="defaultRealHash" value="193489297"/>
-                <input type="text" id="defaultReal" name="defaultReal" class="hasRealPerson"/>
-                <div id="captchaCode"></div>
+            <div id="rp-area">
+                If you see this, leave this form field blank.
+                <input type="text" name="question_212" id="question_212" value="" />
             </div>
-
-            <script type='text/javascript'>
-                $("#captchaCode").realperson({length: 5, regenerate: ""});
-                $("#l_captcha").html(getLocalization('label.captcha'));
-            </script>
 
             <div>
                 <input type="hidden" name="editedId" id="editedId" value=""/>
                 <input type="hidden" name="referedCmtId" id="referedCmtId" value=""/>
-                <button id="l_bt_submit_nc" type="submit" class="btn btn-default">Submit</button>
-                <button type="button" class="btn btn-default bt_cancel" id="l_cancelLogBtn">Cancel</button>
-                <script>
+                <button id="l_bt_submit_nc" type="submit" class="btn btn-default" title="Press Alt+s to submit your comment">Submit</button>
+                <button type="button" class="btn btn-default bt_cancel" id="l_cancelLogBtn" aria-label="Press Alt+` to discard">Cancel</button>
+                <script aria-hidden="true">
                     $('#l_bt_submit_nc').html(getLocalization('label.submit'));
+                    $('#l_bt_submit_nc').attr("title", getLocalization('title.submit'));
                     $('#l_cancelLogBtn').html(getLocalization('label.cancel'));
+                    $('#l_cancelLogBtn').attr("title", getLocalization('title.cancel'));
                 </script>
             </div>
         </form>
@@ -384,7 +379,7 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
                     </div>
                     <div class="modal-footer">
                         <div class="text-center">
-                            <button type="button" class="btn btn-default" id="bt_recover" data-dismiss="modal">Submit</button>
+                            <button type="submit" class="btn btn-default" id="bt_recover">Submit</button>
                             <button type="button" class="btn btn-default" id="l_cancelRec" data-dismiss="modal">Cancel</button>
 
                             <script>$('#bt_recover').attr('value', getLocalization('label.bt_recover'));</script>

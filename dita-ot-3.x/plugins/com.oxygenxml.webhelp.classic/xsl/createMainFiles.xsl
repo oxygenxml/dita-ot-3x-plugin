@@ -667,31 +667,55 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
           
           <script type="text/javascript">
             <xsl:comment>
-             $(function () {
-                  $('input#id_search').keyup(function(){
-                    $("ul#indexList li").hide();
-                    if ($("input#id_search").val() != '' ) {
-                      var sk=$("input#id_search").val();
-                      $('ul#indexList').removeHighlight();
-                      $('ul#indexList').highlight(sk,"highlight");
-
-                      $("div:contains('"+sk+"')").each(function(){
-                        if ($(this).parents("#indexList").length>0){                          
-                          $(this).show();
-                          $(this).parentsUntil('#indexList').show();
-                          $(this).parent().find('ul').show();
-                          if ($(this).find('a').length==0){
-                            $(this).parent().find('ul li').show();                            
-                          }                                                    
-                        }
-                      });
-                    }else{
-                      $("ul#indexList li").show();
-                      $('ul#indexList').removeHighlight();
-                    }
-                  });
-                });
-              </xsl:comment>
+            <![CDATA[       			  
+              $(function () {
+       			    var oldLength = 0;
+       			    var $input = $('input#id_search');
+       			    var timeout;
+       			
+       			    $input.keyup(function () {
+       			        clearTimeout(timeout);
+       			        timeout = setTimeout(function () {
+       			            var $indexList = $('ul#indexList');
+       			            var inputValue = $input.val();
+       			
+       			            if (inputValue != '' && inputValue.length >= oldLength) {
+       			                $indexList.find("li:visible").filter(function () {
+       			                    return $(this).text().indexOf(inputValue) == -1;
+       			                }).addClass('hide');
+       			
+       			                oldLength = inputValue.length;
+       			                $indexList.removeHighlight();
+       			                $indexList.highlight(inputValue);
+       			                return;
+       			            }
+       			
+       			            if (inputValue != '' && inputValue.length < oldLength) {
+       			                $indexList.find("li:hidden").filter(function () {
+       			                    return $(this).text().indexOf(inputValue) != -1;
+       			                }).removeClass('hide');
+       			
+       			                oldLength = inputValue.length;
+       			                $indexList.removeHighlight();
+       			                $indexList.highlight(inputValue);
+       			                return;
+       			            }
+       			
+       			            if (inputValue == '') {
+       			                $indexList.find("li:hidden").removeClass('hide');
+       			                oldLength = 0;
+       			                $indexList.removeHighlight();
+       			                return;
+       			            }
+       			
+       			            oldLength = inputValue.length;
+       			            return;
+       			
+       			        }, 200);
+       			    });
+       			  });
+       		  ]]>
+       			</xsl:comment>
           </script>
         </body>
       </html>

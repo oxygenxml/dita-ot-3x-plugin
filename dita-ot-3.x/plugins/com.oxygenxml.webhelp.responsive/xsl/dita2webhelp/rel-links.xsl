@@ -93,6 +93,23 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
                   <xsl:otherwise><!--use href--><xsl:call-template name="href"/></xsl:otherwise>
                 </xsl:choose>
               </xsl:attribute>
+              
+              <xsl:if test="string-length($label)>0">
+                <xsl:attribute name="aria-label">                
+                  <xsl:choose>
+                    <xsl:when test="*[contains(@class, ' topic/linktext ')]"><xsl:if test="string-length($label)>0"><xsl:value-of select="$label"/></xsl:if> <xsl:apply-templates select="*[contains(@class, ' topic/linktext ')]"/></xsl:when>
+                    <xsl:otherwise><!--use href--><xsl:if test="string-length($label)>0"><xsl:value-of select="$label"/></xsl:if> <xsl:call-template name="href"/></xsl:otherwise>
+                  </xsl:choose>
+                </xsl:attribute>
+              
+                <xsl:attribute name="rel">                
+                    <xsl:choose>
+                      <xsl:when test="@role = 'previous'">prev</xsl:when>
+                      <xsl:otherwise><xsl:value-of select="@role"/></xsl:otherwise>
+                    </xsl:choose>                
+                </xsl:attribute>
+              </xsl:if>
+              
               <xsl:if test="string-length($label) = 0">
                 <xsl:attribute name="class">navheader_parent_path</xsl:attribute>
               </xsl:if>
@@ -123,7 +140,7 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
               </xsl:choose>
               <!-- OXYGEN PATCH END EXM-17248 -->
             </a>
-    
+              
             <xsl:apply-templates select="." mode="add-link-highlight-at-end"/>
     <xsl:apply-templates select="*[contains(@class,' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
   </xsl:template>

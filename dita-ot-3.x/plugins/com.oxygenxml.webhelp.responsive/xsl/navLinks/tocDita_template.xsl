@@ -21,4 +21,7 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
   <dita:extension id="com.oxygenxml.webhelp.xsl.createTocXML"
         behavior="org.dita.dost.platform.ImportXSLAction"
         xmlns:dita="http://dita-ot.sourceforge.net"/>
+  
+  <!-- WH-1439, WH-1829 com.oxygenxml.webhelp.xsl.createTocXML extension point -->
+  <xsl:import href="template:xsl/com.oxygenxml.webhelp.xsl.createTocXML"/>
 </xsl:stylesheet>

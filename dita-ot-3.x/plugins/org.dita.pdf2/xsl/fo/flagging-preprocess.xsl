@@ -139,7 +139,7 @@ See the accompanying LICENSE file for applicable license.
               
    <!-- For these elements, the flagging style can be applied directly to the fo element 
         already being created by the default DITA-OT processing -->
-   <xsl:template match="*[contains(@class, ' topic/image ') or contains(@class,' topic/table ') or                 contains(@class, ' topic/ol ') or                 contains(@class, ' topic/ul ') or contains(@class, ' topic/sl ')]" priority="50">
+   <xsl:template match="*[contains(@class, ' topic/image ') or                contains(@class, ' svg-d/svgref ') or                contains(@class,' topic/table ') or                contains(@class, ' topic/ol ') or                 contains(@class, ' topic/ul ') or contains(@class, ' topic/sl ')]" priority="50">
 
       <xsl:variable name="id" select="generate-id(.)" as="xs:string"/>
 
@@ -454,7 +454,7 @@ See the accompanying LICENSE file for applicable license.
 
       <xsl:variable name="colorprop">
          <xsl:choose>
-            <xsl:when test="contains(@class, ' topic/image ')">
+            <xsl:when test="contains(@class, ' topic/image ') or contains(@class, ' svg-d/svgref ')">
                <xsl:text>border-style:solid;border-width:1pt;border-color:</xsl:text>
             </xsl:when>
             <xsl:otherwise>color:</xsl:otherwise>
@@ -463,7 +463,7 @@ See the accompanying LICENSE file for applicable license.
 
       <xsl:variable name="back-colorprop">
          <xsl:choose>
-            <xsl:when test="contains(@class, ' topic/image ')">
+            <xsl:when test="contains(@class, ' topic/image ') or contains(@class, ' svg-d/svgref ')">
                <xsl:text>border-style:solid;border-width:3pt;border-color:</xsl:text>
             </xsl:when>
             <xsl:otherwise>background-color:</xsl:otherwise>

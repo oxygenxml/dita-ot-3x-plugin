@@ -31,7 +31,7 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
           </h1>
         </xsl:when>
       </xsl:choose>
-      <xsl:value-of select="$newline"/>
+      
       <!-- end -->
   </xsl:template>
     
@@ -41,7 +41,7 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
     <xsl:if test=".//*[contains(@class, ' map/topicref ')][not(@toc='no')][not(@processing-role='resource-only')]">
       <!-- OXYGEN PATCH START EXM-17248 -->
     <div id="tree">
-      <ul><xsl:value-of select="$newline"/>
+      <ul>
         <!-- OXYGEN PATCH END EXM-17248 -->
         
         <xsl:apply-templates select="*[contains(@class, ' map/topicref ')]">
@@ -49,7 +49,7 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
         </xsl:apply-templates>
       </ul>
     </div>
-      <xsl:value-of select="$newline"/>
+      
     </xsl:if>
   </xsl:template>
   

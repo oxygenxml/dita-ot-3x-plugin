@@ -8,9 +8,16 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
 
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
+  <!--
   <xsl:import href="plugin:org.dita.xhtml:xsl/dita2xhtml.xsl"/>
-  <xsl:import href="plugin:org.dita.xhtml:xsl/map2xhtmtoc.xsl" use-when="starts-with(system-property('DOT_VERSION'), '1.')"/>
-  <xsl:import href="plugin:org.dita.xhtml:xsl/map2xhtmltoc.xsl" use-when="not(starts-with(system-property('DOT_VERSION'), '1.'))"/>
+  -->  
+  <xsl:import href="plugin:org.dita.html5:xsl/dita2html5Impl.xsl"/>
+  
+  
+  <xsl:import href="plugin:org.dita.xhtml:xsl/map2xhtmltoc.xsl"/>  
+  <!--<xsl:import href="plugin:org.dita.html5:xsl/map2html5Impl.xsl"/>-->
+  
+
   <xsl:import href="map2webhelptoc.xsl"/>
   <xsl:import href="../localization.xsl"/>
 

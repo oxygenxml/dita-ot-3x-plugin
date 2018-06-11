@@ -33,10 +33,13 @@
             'use.stemming',
             'webhelp.sitemap.priority',
             'webhelp.sitemap.change.frequency',
-            'args.default.language',
+            'default.language',
             'webhelp.show.changes.and.comments',
+            'webhelp.enable.template.js.module.loading',
             (: Property computed in the build file. (This is not a scenario parameter) :)
-            'webhelp.language'
+            'webhelp.language',
+            (: Property set by the publishing template task. (This is not a scenario parameter) :)
+            'webhelp.js.module.rel.path'
             )"/>
 
     <xsl:template match="/properties">

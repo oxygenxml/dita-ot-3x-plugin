@@ -1,55 +1,54 @@
-<feature extension="package.support.name" value="Oxygen XML Editor Support"/>
-<feature extension="package.support.email" value="support@oxygenxml.com"/>
-<feature extension="package.version" value="20.0"/>
+<feature extension="package.support.name" value="Oxygen XML Editor Support" xml:base="."/>
+<feature extension="package.support.email" value="support@oxygenxml.com" xml:base="."/>
+<feature extension="package.version" value="20.1" xml:base="."/>
 
-<feature extension="dita.conductor.transtype.check" value="webhelp" type="txt"/>
-<feature extension="dita.conductor.transtype.check" value="webhelp-feedback" type="txt"/>
+<feature extension="dita.conductor.transtype.check" value="webhelp" type="txt" xml:base="."/>
+<feature extension="dita.conductor.transtype.check" value="webhelp-feedback" type="txt" xml:base="."/>
 
-<feature extension="dita.conductor.target.relative" value="integrator.xml" type="file"/>
+<feature extension="dita.conductor.target.relative" value="integrator.xml" type="file" xml:base="."/>
 
-<feature extension="dita.conductor.lib.import" file="lib/ant-contrib-1.0b3.jar" type="file"/>
-<feature extension="dita.xsl.strings" file="oxygen-webhelp/resources/localization/strings.xml"/>
-<extension-point id="com.oxygenxml.classic.main.target.dependencies" name="Custom dependencies"/>
+<feature extension="dita.xsl.strings" file="oxygen-webhelp/resources/localization/strings.xml" xml:base="."/>
+<extension-point id="com.oxygenxml.classic.main.target.dependencies" name="Custom dependencies" xml:base="."/>
 
 <!--
     XSLT extension point for the stylesheet that creates an HTML page for each topic when using 
     the Webhelp transformation.    
   -->
 <extension-point id="com.oxygenxml.webhelp.classic.xsl.dita2webhelp" 
-    name="XSLT extension point for the stylesheet that creates an HTML page for each topic"/>
+    name="XSLT extension point for the stylesheet that creates an HTML page for each topic" xml:base="."/>
 
 <!-- 
     Extension point to pass parameters to the XSLT transformation that creates an HTML page for each topic
 -->
 <extension-point id="com.oxygenxml.webhelp.classic.xsl.dita2webhelp.param" 
-    name="Extension point to pass parameters to the XSLT transformation that creates an HTML page for each topic"/>
+    name="Extension point to pass parameters to the XSLT transformation that creates an HTML page for each topic" xml:base="."/>
 
 <!--
     XSLT extension point for the stylesheet that creates the main HTML page for 
     the Webhelp transformation.
   -->
 <extension-point id="com.oxygenxml.webhelp.classic.xsl.createMainFiles" 
-    name="XSLT extension point for the stylesheet that creates the main HTML page"/>
+    name="XSLT extension point for the stylesheet that creates the main HTML page" xml:base="."/>
 
 <!-- 
     Extension point to pass parameters to the XSLT transformation that creates the main HTML page
 -->
 <extension-point id="com.oxygenxml.webhelp.classic.xsl.createMainFiles.param" 
-    name="Extension point to pass parameters to the XSLT transformation that creates the main HTML page"/>
+    name="Extension point to pass parameters to the XSLT transformation that creates the main HTML page" xml:base="."/>
 
 <!--
     XSLT extension point for the stylesheet that creates the toc.xml file.
   -->
 <extension-point id="com.oxygenxml.webhelp.classic.xsl.createTocXML" 
-    name="XSLT extension point for the stylesheet that creates the toc.xml file."/>
+    name="XSLT extension point for the stylesheet that creates the toc.xml file." xml:base="."/>
 
 <!-- 
     Extension point to pass parameters to the XSLT transformation that creates the toc.xml file.
 -->
 <extension-point id="com.oxygenxml.webhelp.classic.xsl.createTocXML.param" 
-    name="Extension point to pass parameters to the XSLT transformation that creates the 'toc.xml' file."/>
+    name="Extension point to pass parameters to the XSLT transformation that creates the 'toc.xml' file." xml:base="."/>
 
-<transtype name="webhelp" extends="webhelpCommons" desc="WebHelp Classic">
+<transtype name="webhelp" extends="webhelpCommons" desc="WebHelp Classic" xml:base=".">
     <param name="webhelp.logo.image"
         desc="The URL of a remote file or the file path of a local file that contains the logo image that will be added in the header area."
         type="file"/>
@@ -95,7 +94,7 @@
 </transtype>
 
 
-<transtype name="webhelp-feedback" extends="webhelp" desc="WebHelp Classic with Feedback">
+<transtype name="webhelp-feedback" extends="webhelp" desc="WebHelp Classic with Feedback" xml:base=".">
     <param name="webhelp.product.id"
         desc="Specifies an identifier of the current documentation project. This is needed when multiple WebHelp systems are deployed on the same server.
         For example, &quot;mobile-phone-user-guide&quot; or &quot;hvac-installation-guide&quot;"
@@ -105,9 +104,9 @@
         type="string"/>
 </transtype>
 
-<template file="xsl/dita/desktop/dita2webhelp_template.xsl"/>
-<template file="xsl/dita/desktop/createMainFiles_template.xsl"/>
+<template file="xsl/dita/desktop/dita2webhelp_template.xsl" xml:base="."/>
+<template file="xsl/dita/desktop/createMainFiles_template.xsl" xml:base="."/>
 
-<template file="xsl/dita/tocDita_template.xsl"/>
+<template file="xsl/dita/tocDita_template.xsl" xml:base="."/>
 
-<template file="build_dita_template.xml"/>
+<template file="build_dita_template.xml" xml:base="."/>

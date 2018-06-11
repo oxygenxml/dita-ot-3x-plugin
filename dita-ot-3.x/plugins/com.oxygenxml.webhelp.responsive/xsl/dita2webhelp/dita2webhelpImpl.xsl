@@ -19,19 +19,22 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
   
   <!-- Add navigation links like Publication toc(mini toc) or breadcrumb-->
   <xsl:import href="dita2xhtml.xsl"/>
-  <xsl:import href="../util/macroExpander.xsl"/>
   
   <!-- Apply selected template -->
   <xsl:import href="../template/topicComponentsExpander.xsl"/>
   <xsl:import href="../util/functions.xsl"/>
-    
+  
+  <xsl:output 
+            method="xhtml" 
+            encoding="UTF-8"
+            indent="no"
+            doctype-public=""
+            doctype-system="about:legacy-compat"
+            omit-xml-declaration="yes"
+            include-content-type="no"/>
+
   <!-- Enable debugging from here. --> 
   <xsl:param name="WEBHELP_DEBUG" select="false()"/>
-  
-  <!-- 
-    An unique(timestamp) ID for the current WebHelp transformation 
-  -->
-  <xsl:param name="WEBHELP_UNIQUE_ID"/>
   
   <!-- 
     Current oXygen build number. 
@@ -84,6 +87,7 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
   
   <!-- Normal Webhelp transformation, filtered. -->
   <xsl:template match="/">
+    <xsl:variable name="template_base_uri" select="base-uri()"/>
     
     <xsl:variable name="topicContent">
       <xsl:apply-imports/>
@@ -122,12 +126,15 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
         </xsl:variable>
         
         <!-- Apply the current selected template -->
-        <xsl:variable name="wh_template_doc" select="doc($WEBHELP_TEMPLATE_URL)"/>        
+        <xsl:variable name="wh_template_doc" select="doc($WEBHELP_TEMPLATE_URL)"/>
+        
         <xsl:apply-templates select="$wh_template_doc" mode="copy_template">
           <xsl:with-param name="ditaot_topicContent" select="$topicContent" tunnel="yes"/>
           <!-- EXM-36737 - Context node used for messages localization -->
           <xsl:with-param name="i18n_context" select="/*" tunnel="yes" as="element()"/>
-        </xsl:apply-templates>
+          
+          <xsl:with-param name="template_base_uri" select="$WEBHELP_TEMPLATE_URL" tunnel="yes"/>
+        </xsl:apply-templates>          
       </xsl:otherwise>
     </xsl:choose>    
   </xsl:template>

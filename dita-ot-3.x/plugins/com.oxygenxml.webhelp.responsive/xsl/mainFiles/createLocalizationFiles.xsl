@@ -18,6 +18,8 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
 
     <!-- Localization of text strings displayed in Webhelp output. -->
     <xsl:import href="../util/functions.xsl"/>
+    
+    <xsl:import href="../util/relpath_util.xsl"/>
 
     <!-- Declares all available parameters -->
     <xsl:include href="params.xsl"/>
@@ -27,6 +29,8 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
 		webhelp feedback enabled transformation
 	-->
 	<xsl:param name="WEBHELP_FEEDBACK_ENABLED"/>
+    
+    <xsl:param name="DITA_OT_PLUGINS_FILE_URL"/>
 
     <!-- 
         Creates the localization files. 
@@ -34,8 +38,18 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
     <xsl:template match="/">
         <!-- Get current detected language -->
         <xsl:variable name="language" select="lower-case(oxygen:getParameter('webhelp.language'))"/>
-        <xsl:variable name="stringFileName" select="*/lang[@xml:lang = $language]/@filename"/>
+        
+        <!-- 
+        	WH-1931 - Get strings from extension plugins 
+        --> 
+        <xsl:variable name="extensionsStrings">
+            <xsl:call-template name="copyExtensionPluginStrings">
+                <xsl:with-param name="language" select="$language"/>
+            </xsl:call-template>            
+        </xsl:variable>
+        
 
+        <xsl:variable name="stringFileName" select="*/lang[@xml:lang = $language]/@filename"/>
         <xsl:variable name="stringFile"
             select="
                 concat($BASEDIR, '/oxygen-webhelp/resources/localization/',
@@ -48,10 +62,20 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
             select="oxygen:makeURL($stringFile)"/>        
         
         <xsl:variable name="stringsElem" select="document($stringFileUrl)/strings"/>
+        
+        <!-- WH-1931 - Merge localization strings -->
+        <xsl:variable name="mergedStringsElem">
+            <xsl:apply-templates 
+                select="$stringsElem" 
+                mode="merge-location-strings">
+                <xsl:with-param name="extensionStrings" select="$extensionsStrings" tunnel="yes"/>
+            </xsl:apply-templates>            
+        </xsl:variable>
+        
 
         <!-- Generate localization files for JS -->
         <xsl:call-template name="generateJsLocalizationFile">
-            <xsl:with-param name="stringsElem" select="$stringsElem"/>
+            <xsl:with-param name="stringsElem" select="$mergedStringsElem"/>
             <xsl:with-param name="forFeedback" select="false()"/>
         </xsl:call-template>
 
@@ -59,14 +83,107 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
         <xsl:if test="lower-case($WEBHELP_FEEDBACK_ENABLED)='true'"> 
             <!-- Generate localization files for JS for the feedback module -->
             <xsl:call-template name="generateJsLocalizationFile">
-                <xsl:with-param name="stringsElem" select="$stringsElem"/>
+                <xsl:with-param name="stringsElem" select="$mergedStringsElem"/>
                 <xsl:with-param name="forFeedback" select="true()"/>
             </xsl:call-template>
             
 	        <xsl:call-template name="generatePhpLocalizationFile">
-	            <xsl:with-param name="stringsElem" select="$stringsElem"/>
+	            <xsl:with-param name="stringsElem" select="$mergedStringsElem"/>
 	        </xsl:call-template>
         </xsl:if>
+    </xsl:template>
+    
+    <!--
+        WH-1931 - Merge localization strings with the ones from extension plugins
+        
+        <str name="jump.to.content" js="true" php="false">Changed Jump to main content</str>
+    -->
+    <xsl:template match="str" mode="merge-location-strings">
+        <xsl:param name="extensionStrings" tunnel="yes"/>
+        <xsl:variable name="stringName" select="@name"/>
+        <xsl:choose>
+            <xsl:when test="$extensionStrings//str[@name = $stringName]">                
+                <xsl:copy-of select="$extensionStrings//str[@name = $stringName]"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:copy>
+                    <xsl:apply-templates select="node() | @*" mode="#current"/>            
+                </xsl:copy>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    
+    <xsl:template match="node() | @*" mode="merge-location-strings">
+        <xsl:copy>
+            <xsl:apply-templates select="node() | @*" mode="#current"/>            
+        </xsl:copy>
+    </xsl:template>
+    
+    <!--
+	    WH-1931
+        Verify if there is any language extensions plugin for WebHelp.        
+        If any, then copy the strings according to the current language.
+    -->    
+    <xsl:template name="copyExtensionPluginStrings">
+        <xsl:param name="language"/>
+        
+        <!-- URL to DITA-OT plugins file. Ussualy located in resources folder -->
+        <xsl:variable name="ditaotPluginsURL" select="oxygen:makeURL($DITA_OT_PLUGINS_FILE_URL)"/>
+        
+        <xsl:choose>
+            <xsl:when test="doc-available($ditaotPluginsURL)">
+                <xsl:variable name="allPluginsDoc" select="doc($ditaotPluginsURL)"/>
+                <xsl:variable 
+                    name="xslStringsExtensionsFile" 
+                    select="$allPluginsDoc//plugin[require/@plugin='com.oxygenxml.webhelp.responsive']/feature[@extension='dita.xsl.strings'][1]/@file"/>
+                
+                <xsl:choose>
+                    <xsl:when 
+                         test="exists($xslStringsExtensionsFile)">
+                        <!-- There is an extensions plugins that contributes strings -->
+                        <xsl:variable 
+                            name="extensionPluginBaseURL" 
+                            select="$allPluginsDoc//plugin[require/@plugin='com.oxygenxml.webhelp.responsive'][feature/@extension='dita.xsl.strings']/@xml:base"/>
+                        <!--<xsl:message>xml:base: <xsl:value-of select="$extensionPluginBaseURL"/></xsl:message>-->
+                        
+                        <xsl:variable name="extensionPluginURL" 
+                            select="resolve-uri(
+                            $extensionPluginBaseURL,
+                            $ditaotPluginsURL)"/>
+                        
+                        <xsl:variable name="extensionsStringURL" 
+                            select="resolve-uri(
+                            $xslStringsExtensionsFile,
+                            $extensionPluginURL)"/>                        
+                        
+                        <xsl:choose>
+                            <xsl:when test="doc-available($extensionsStringURL)">
+                                <!-- Strings file for language -->
+                                <xsl:variable 
+                                    name="stringFileName" 
+                                    select="doc($extensionsStringURL)//lang[lower-case(@xml:lang) = lower-case($language)]/@filename"/>
+                                
+                                
+                                <xsl:variable name="stringFileURL"
+                                    select="resolve-uri($stringFileName, $extensionPluginURL)"/>
+                                
+                                <xsl:choose>
+                                    <xsl:when test="doc-available($stringFileURL)">
+                                        <xsl:sequence select="doc($stringFileURL)/*"/>                                        
+                                    </xsl:when>
+                                </xsl:choose>
+                            </xsl:when>
+                        </xsl:choose>
+                    </xsl:when>
+                </xsl:choose>
+                
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:message>ERROR: The 'resources/plugins.xml' resource is not available.</xsl:message>
+            </xsl:otherwise>
+        </xsl:choose>
+        
+        
     </xsl:template>
 
     <!--

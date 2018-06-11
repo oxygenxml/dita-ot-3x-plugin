@@ -15,7 +15,11 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
     
 
   <!-- EXM-34368 Stylesheet to handle DITA elements -->
+  <!--
   <xsl:import href="plugin:org.dita.xhtml:xsl/dita2html-base.xsl"/>
+  -->
+  <xsl:import href="plugin:org.dita.html5:xsl/dita2html5Impl.xsl"/>
+    
   <xsl:import href="dita-utilities.xsl"/>
   <xsl:import href="../functions.xsl"/>
   <!-- EXM-34663 - Importing the stylesheet that contains some functions for working with relative paths. -->

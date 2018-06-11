@@ -1,0 +1,3 @@
+<plugin id="com.oxygenxml.dost.patches">
+ <feature extension="dita.conductor.lib.import" file="lib/oxygen-dost-patches.jar" type="file"/>
+</plugin>

@@ -1,0 +1,56 @@
+
+/* Use the WebHelp main CSS */
+@import "ashes.css";
+
+/* Now specific rules for the print output. */
+@page :left, :right, table-of-contents:left, table-of-contents:right, chapter:left, chapter:right{
+    @top-left{
+        font-size: 10pt;
+        font-family: "PT Sans";
+    }
+    
+    @top-right{
+        font-size: 10pt;
+        font-family: "PT Sans";
+    }
+}
+
+body {
+  font-size: 10pt;
+  background-color: white;
+  line-height: 1.7em;  
+}
+
+*[class ~= "topic/title"] {
+	line-height: 1.7em;
+}
+
+code {
+  padding:2px 4px; 
+}
+
+.related-links strong,
+.related-links a:after,
+.related-links a:before{
+  color:rgb(251, 251, 251) !important;
+}
+
+*[class ~= "index/label"]{
+  background-color: #293136;
+  color:white !important;
+  padding:0.5em;
+  text-align: center;
+}
+
+
+.wh_content_area{
+  background-color: inherit;
+}
+
+*[class ~= "topic/fn"]:footnote-call {
+	font-weight: bold;
+}
+
+*[class ~= "topic/fn"]:footnote-marker {
+	font-weight: bold;
+}

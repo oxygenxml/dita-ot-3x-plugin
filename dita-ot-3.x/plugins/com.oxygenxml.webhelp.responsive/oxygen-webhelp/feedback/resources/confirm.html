@@ -87,7 +87,7 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
                 url: "./php/confirmUser.php",
                 data: "id=" + id + "&productName=" + productName + "&productVersion=" + productVersion,
                 success: function (data_response) {
-                    var response = eval("(" + data_response + ")");
+                    var response = JSON.parse("(" + data_response + ")");
                     $("#preload").hide();
                     $('#ll_remember').html(response.msg);
                     $("#newPassword").show();

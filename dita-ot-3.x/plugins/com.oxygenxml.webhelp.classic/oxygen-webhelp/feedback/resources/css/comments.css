@@ -129,9 +129,6 @@ html[dir="rtl"] ul.commentStyle li ul.commentStyle li{
     width: 100%;
 	background-color: #fff;
 }
-.realperson-challenge {
-	margin-top: 10px;
-}
 
 div.cmTitle{
 	float:left; 	
@@ -342,8 +339,8 @@ div.product {
 #commentsContainer div,#commentsContainer span {
 	line-height: 1.5em;
 }
-#o_captcha .realperson-text{
-	line-height: 3px;
+#rp-area{
+	display:none;
 }
 
 #cm_count, #preload {

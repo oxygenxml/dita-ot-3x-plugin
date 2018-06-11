@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html [
-    <!ENTITY header SYSTEM "header.xml">
-    <!ENTITY footer SYSTEM "footer.xml">
-]>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.oxygenxml.com/webhelp/components">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -39,19 +35,24 @@
         <whc:include_html href="${webhelp.fragment.head}"/>
     </head>
     <body class="wh_search_page">
+        <a href="#results" class="sr-only sr-only-focusable"><whc:macro value="${i18n(jump.to.results)}" /></a>
         <!-- EXM-36950 - Expand the args.hdr parameter here -->
         <whc:include_html href="${args.hdr}"/>
         <whc:include_html href="${webhelp.fragment.before.body}"/>
-        &header;        
+        
+        <whc:include_html href="${webhelp.fragment.header}"/>
+        
         <!-- Search form -->
         <whc:webhelp_search_input class="navbar-form search" role="form"/>
-        <div class="container-fluid wh_content_area">
+        <div class="container-fluid wh_content_area" id="results">
             <div class="row">
                 <whc:webhelp_search_results class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="searchResults"/>
                 <div id="wh-search-pagination" class="wh-search-pagination col-xs-12 col-sm-12 col-md-12 col-lg-12"></div>
             </div>
         </div>
-        &footer;
+        
+        <whc:include_html href="footer.xml"/>
+        
         <!-- Latest compiled and minified JavaScript -->
         <script src="${oxygen-webhelp-assets-dir}/lib/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
         <whc:include_html href="${webhelp.fragment.after.body}"/>

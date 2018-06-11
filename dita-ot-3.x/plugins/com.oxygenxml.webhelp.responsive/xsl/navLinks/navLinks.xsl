@@ -1,37 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet 
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:toc="http://www.oxygenxml.com/ns/webhelp/toc" 
-    xmlns="http://www.w3.org/1999/xhtml"
-    exclude-result-prefixes="#all"
-    version="2.0">
+<?xml version="1.0" encoding="UTF-8"?><!--
     
-    <xsl:import href="sidetoc.xsl"/>
-    <xsl:import href="menu.xsl"/>
-    <xsl:import href="navJson.xsl"/>
-    <xsl:import href="breadcrumb.xsl"/>
-    <xsl:import href="../util/dita-utilities.xsl"/>
+Oxygen Webhelp plugin
+Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
+
+--><xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     
-    <xsl:param name="TEMP_DIR_URL"/>
-    <xsl:param name="MENU_TEMP_FILE_URI"/>
-    <xsl:param name="WEBHELP_PUBLICATION_TOC_LINKS" select="'chapter'"/>
-    <xsl:param name="WEBHELP_SIDE_TOC_LINKS"/>
-    <xsl:param name="WEBHELP_PUBLICATION_TOC_HIDE_CHUNKED_TOPICS" select="'yes'"/>
-    <xsl:param name="JSON_OUTPUT_DIR_URI"/>
-    <xsl:param name="WEBHELP_TOP_MENU_DEPTH"/>
-    
-    <xsl:variable name="VOID_HREF" select="'javascript:void(0)'"/>
-    <xsl:output name="html" method="xhtml" media-type="text/html" omit-xml-declaration="yes"/>
-    
-    <xsl:key name="tocHrefs" match="toc:topic[@href][not(@href=$VOID_HREF)][not(@format) or @format = 'dita']" use="tokenize(@href, '#')[1]"/>
-    
-    <xsl:template match="/toc:toc">
-        <xsl:apply-templates mode="side-toc" select="."/>
-        <xsl:apply-templates mode="menu" select="."/>
-        <xsl:apply-templates mode="nav-json" select="."/>
-        <xsl:apply-templates mode="breadcrumb" select="."/>
-    </xsl:template>
-    
-    
+  <xsl:import href="navLinksImpl.xsl"/>
+
+  <!--
+    XSLT extension point for the stylesheet used to create the navigation links related files. 
+  -->
+  
+  
+  <!-- WH-1782 com.oxygenxml.webhelp.xsl.createNavLinks extension point -->
+  <xsl:import xmlns:dita="http://dita-ot.sourceforge.net" href="template:xsl/com.oxygenxml.webhelp.xsl.createNavLinks"/>  
 </xsl:stylesheet>

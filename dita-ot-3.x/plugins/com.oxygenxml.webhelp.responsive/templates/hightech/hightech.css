@@ -170,9 +170,9 @@ a:hover {
   margin: 2em 1em;
   font-size: 1em;
 }
+.wh_print_link button,
 .webhelp_expand_collapse_sections,
 .wh_hide_highlight,
-.wh_print_link a,
 .wh_navigation_links a,
 .wh_navigation_links a:hover,
 .wh_navigation_links a:active,

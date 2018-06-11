@@ -15,6 +15,8 @@
         <xsl:param name="local.topic.file.url" as="xs:string"/>
         <!-- The URL of the Web Author deployment. -->
         <xsl:param name="web.author.url" as="xs:string"/>
+        <!-- The path of the DITAVAL file. -->
+        <xsl:param name="local.ditaval.path" as="xs:string"/>
       
         <!-- Use a default value for the Web Author deployment.-->
         <xsl:variable name="web.author.url.nonull">
@@ -32,11 +34,21 @@
         <xsl:variable name="file.url.encoded">
             <xsl:value-of select="encode-for-uri(resolve-uri($file.rel.path, $remote.ditamap.url))"/>
         </xsl:variable>
-    
-        <xsl:value-of select="concat($web.author.url.nonull, 'app/oxygen.html?url=', $file.url.encoded, '&amp;ditamap=', $ditamap.url.encoded)"/>
+        <xsl:variable name="ditaval.query.param">
+            <xsl:if test="$local.ditaval.path != ''">
+                <xsl:variable name="ditaval.rel.path">
+                    <xsl:value-of select="editlink:makeRelative(editlink:toUrl($local.ditamap.path), editlink:toUrl($local.ditaval.path))"/>
+                </xsl:variable>
+                <xsl:variable name="ditaval.url.encoded">
+                    <xsl:value-of select="encode-for-uri(resolve-uri($ditaval.rel.path, $remote.ditamap.url))"/>
+                </xsl:variable>
+                <xsl:value-of select="concat('&amp;dita.val.url=', $ditaval.url.encoded)"/>
+            </xsl:if>
+        </xsl:variable>
+        
+        <xsl:value-of select="concat($web.author.url.nonull, 'app/oxygen.html?url=', $file.url.encoded, '&amp;ditamap=', $ditamap.url.encoded, $ditaval.query.param)"/>
     </xsl:function>
     
-
     <!-- Makes the topic URL relative to the map URL. -->
     <xsl:function name="editlink:makeRelative" as="xs:string">
         <xsl:param name="map" as="xs:string"/>

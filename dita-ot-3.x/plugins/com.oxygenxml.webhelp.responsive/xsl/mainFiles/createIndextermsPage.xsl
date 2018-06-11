@@ -14,6 +14,5 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
   
   
   <!-- WH-1439 com.oxygenxml.webhelp.xsl.createIndexTermsPage extension point -->
-  <xsl:import xmlns:dita="http://dita-ot.sourceforge.net" href="template:xsl/com.oxygenxml.webhelp.xsl.createIndexTermsPage"/>
-  
+  <xsl:import xmlns:dita="http://dita-ot.sourceforge.net" href="template:xsl/com.oxygenxml.webhelp.xsl.createIndexTermsPage"/>  
 </xsl:stylesheet>

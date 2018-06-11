@@ -28,4 +28,15 @@
             <parameter name="webhelp.top.menu.depth" value="3"/>
         </parameters>
     </webhelp>
+    <pdf>
+    	<preview-image file="oxygen-tiles.png"/>
+    	<tags>
+            <tag type="layout">tiles</tag>
+            <tag type="color">blue</tag>
+            <tag type="color">light</tag>
+        </tags>
+        <resources>
+            <css file="oxygen-print.css"/>
+        </resources>
+    </pdf>
 </publishing-template>

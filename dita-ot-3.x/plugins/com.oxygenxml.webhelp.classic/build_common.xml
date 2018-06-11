@@ -13,12 +13,9 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
 	<!-- Directory of the Webhelp plugin. -->
 	<property name="webhelp.classic.dir" value="." />
 
-	<!-- Directory with files log4j.jar and license.jar. -->
-	<property name="webhelp.lib.dir" value="${webhelp.classic.dir}/lib" />
+	<property name="webhelp.version" value="20.1-SNAPSHOT" />
 
-	<property name="webhelp.version" value="20.0-SNAPSHOT" />
-
-	<property name="webhelp.build.number" value="2018041315" />
+	<property name="webhelp.build.number" value="2018061112" />
 
 	<!-- Property to disable search autocomplete -->
 	<property name="webhelp.enable.search.autocomplete" value="true" />

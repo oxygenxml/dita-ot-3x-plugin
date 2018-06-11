@@ -8,5 +8,7 @@
     <param name="editlink.present.only.path.to.topic" expression="${editlink.present.only.path.to.topic}" if="editlink.present.only.path.to.topic"/>
 
     <param name="editlink.local.ditamap.path" expression="${args.input}"/>
+    <param name="editlink.local.ditaval.path" expression="${args.filter}" if="args.filter"/>
+    
 </extension>
 

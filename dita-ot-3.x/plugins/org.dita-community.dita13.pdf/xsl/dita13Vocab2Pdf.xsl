@@ -16,7 +16,7 @@
   <!--<xsl:include href="hi-d2fo.xsl"/>-->
   <xsl:include href="learning2domain2fo.xsl"/>
   <xsl:include href="mathml-d2fo.xsl"/>
-  <xsl:include href="svg-d2fo.xsl"/>
+  <!--  <xsl:include href="svg-d2fo.xsl"/>-->
   <!--<xsl:include href="xml-d2fo.xsl"/>-->
   
   

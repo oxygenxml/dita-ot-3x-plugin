@@ -1,11 +1,11 @@
 /* Topic content styles. */
-@import "topic/topic.css?buildId=2018041315";
+@import "topic/topic.css?buildId=2018061112";
 
 /* Default styles. */
-@import "core/webhelp.css?buildId=2018041315";
+@import "core/webhelp.css?buildId=2018061112";
 
 /* Top Menu and Side TOC components styles. */
-@import "nav-links/nav-links.css?buildId=2018041315";
+@import "nav-links/nav-links.css?buildId=2018061112";
 
 /* Expand/collapse topic sections. */
-@import "core/expand.css?buildId=2018041315";
+@import "core/expand.css?buildId=2018061112";

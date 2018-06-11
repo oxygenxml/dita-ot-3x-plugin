@@ -24,15 +24,16 @@ See the accompanying LICENSE file for applicable license.
   <xsl:import href="abbrev-d.xsl"/>
   <xsl:import href="markup-d.xsl"/>
   <xsl:import href="xml-d.xsl"/>
+  <xsl:import href="svg-d.xsl"/>
   
   <xsl:import href="nav.xsl"/>
   
   <xsl:import href="htmlflag.xsl"/>
     
-  
+  <xsl:import xmlns:dita="http://dita-ot.sourceforge.net" href="../../com.oxygenxml.editlink/xhtml.xsl"/><xsl:import href="../../com.oxygenxml.highlight/xhtmlHighlight.xsl"/><xsl:import href="../../com.oxygenxml.html.custom/custom.xsl"/><xsl:import href="../../com.oxygenxml.html.embed/xhtmlEmbed.xsl"/><xsl:import href="../../com.oxygenxml.image.float/customXHTML.xsl"/><xsl:import href="../../com.oxygenxml.media/xhtmlMedia.xsl"/>
 
   <!-- root rule -->
-  <xsl:template xmlns:dita="http://dita-ot.sourceforge.net" match="/">
+  <xsl:template match="/">
     <xsl:apply-templates/>
   </xsl:template>
   

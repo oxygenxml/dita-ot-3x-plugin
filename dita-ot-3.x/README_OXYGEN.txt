@@ -1,4 +1,4 @@
-DITA Open Toolkit bundled with Oxygen 20.0-SNAPSHOT, build 2018041315
+DITA Open Toolkit bundled with Oxygen 20.1-SNAPSHOT, build 2018061112
 
 Differences between the DITA Open Toolkit bundled with Oxygen and a regular DITA Open Toolkit distribution
 downloaded from the DITA-OT project:

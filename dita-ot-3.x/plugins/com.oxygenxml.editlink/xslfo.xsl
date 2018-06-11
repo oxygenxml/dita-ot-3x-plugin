@@ -12,6 +12,7 @@
   <xsl:param name="editlink.web.author.url"/>
   <xsl:param name="editlink.local.ditamap.path"/>
   <xsl:param name="editlink.present.only.path.to.topic"/>
+  <xsl:param name="editlink.local.ditaval.path"/>
  
   <xsl:template match="*" mode="processTopicTitle">
     <xsl:choose>
@@ -93,7 +94,7 @@
                               width="80pt"
                               font-style="normal">
                               <xsl:attribute name="external-destination">
-                                <xsl:value-of select="editlink:compute($editlink.remote.ditamap.url, $editlink.local.ditamap.path, @xtrf, $editlink.web.author.url)"/>
+                                <xsl:value-of select="editlink:compute($editlink.remote.ditamap.url, $editlink.local.ditamap.path, @xtrf, $editlink.web.author.url, $editlink.local.ditaval.path)"/>
                               </xsl:attribute>
                               Edit online
                             </fo:basic-link>
@@ -204,7 +205,7 @@
                                   width="80pt"
                                   font-style="normal">
                                   <xsl:attribute name="external-destination">
-                                    <xsl:value-of select="editlink:compute($editlink.remote.ditamap.url, $editlink.local.ditamap.path, @xtrf, $editlink.web.author.url)"/>
+                                    <xsl:value-of select="editlink:compute($editlink.remote.ditamap.url, $editlink.local.ditamap.path, @xtrf, $editlink.web.author.url, $editlink.local.ditaval.path)"/>
                                   </xsl:attribute>
                                   Edit online
                                 </fo:basic-link>  

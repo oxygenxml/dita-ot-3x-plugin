@@ -51,11 +51,6 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
   <xsl:param name="WEBHELP_INDEXTERMS_TEMPLATE_URL"/>
   
   <!-- 
-    An unique(timestamp) ID for the current WebHelp transformation 
-  -->
-  <xsl:param name="WEBHELP_UNIQUE_ID"/>
-  
-  <!-- 
     Current oXygen build number. 
   -->
   <xsl:param name="WEBHELP_BUILD_NUMBER"/>

@@ -29,7 +29,6 @@ See the accompanying LICENSE file for applicable license.
   </transtype>
   <require plugin="org.dita.xhtml"/>
   <feature extension="ant.import" file="build_dita2eclipsehelp.xml"/>
-  <feature extension="dita.conductor.lib.import" file="lib/eclipsehelp.jar"/>
   <template file="build_dita2eclipsehelp_template.xml"/>
   <template file="xsl/map2eclipse_template.xsl"/>
   <template file="xsl/map2plugin_template.xsl"/>

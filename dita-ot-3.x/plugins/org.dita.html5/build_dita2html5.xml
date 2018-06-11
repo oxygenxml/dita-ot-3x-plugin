@@ -4,7 +4,7 @@ This file is part of the DITA Open Toolkit project.
 Copyright 2015 Jarno Elovirta
 
 See the accompanying LICENSE file for applicable license.
---><project xmlns:dita="http://dita-ot.sourceforge.net" name="dita2html5">
+--><project xmlns:dita="http://dita-ot.sourceforge.net" xmlns:if="ant:if" xmlns:unless="ant:unless" name="dita2html5">
 
   <target name="dita2html5" depends="html5.init,                    build-init,                    preprocess,                    html5.topic,                    html5.map,                    html5.css"/>
 
@@ -119,7 +119,7 @@ See the accompanying LICENSE file for applicable license.
   </target>
 
   <target name="html5.image-metadata" unless="html5.image-metadata.skip" description="Read image metadata">
-    <pipeline message="Read image metadata." taskname="image-metadata" tempdir="${dita.temp.dir}">
+    <pipeline message="Read image metadata." taskname="image-metadata">
       <module class="org.dita.dost.module.ImageMetadataModule">
         <param name="outputdir" location="${dita.output.dir}"/>
       </module>
@@ -129,8 +129,21 @@ See the accompanying LICENSE file for applicable license.
   <target name="html5.topics.common" unless="noTopic" if="old.transform">
     <html5.topics>
       
-  <param name="input.map.url" expression="${html5.map.url}" if="html5.map.url"/> 
-  <param name="nav-toc" expression="${html5.nav-toc}" if="html5.nav-toc"/>
+    
+    <param name="editlink.remote.ditamap.url" expression="${editlink.remote.ditamap.url}" if="editlink.remote.ditamap.url"/>
+    
+
+    <param name="editlink.web.author.url" expression="${editlink.web.author.url}" if="editlink.web.author.url"/>
+    <param name="editlink.present.only.path.to.topic" expression="${editlink.present.only.path.to.topic}" if="editlink.present.only.path.to.topic"/>
+
+    <param name="editlink.local.ditamap.path" expression="${args.input}"/>
+    <param name="editlink.local.ditaval.path" expression="${args.filter}" if="args.filter"/>
+    
+
+    <param name="com.oxygenxml.xhtml.linkToMediaResources" expression="${com.oxygenxml.xhtml.linkToMediaResources}" if="com.oxygenxml.xhtml.linkToMediaResources"/>
+
+  <param name="input.map.url" expression="${html5.map.url}" if:set="html5.map.url"/>
+  <param name="nav-toc" expression="${html5.nav-toc}" if:set="html5.nav-toc"/>
 
       <mapper classname="org.dita.dost.ant.types.JobMapper" to="${out.ext}"/>
     </html5.topics>
@@ -139,8 +152,21 @@ See the accompanying LICENSE file for applicable license.
   <target name="html5.topics.common.inner" unless="noTopic" if="inner.transform">
     <html5.topics>
       
-  <param name="input.map.url" expression="${html5.map.url}" if="html5.map.url"/> 
-  <param name="nav-toc" expression="${html5.nav-toc}" if="html5.nav-toc"/>
+    
+    <param name="editlink.remote.ditamap.url" expression="${editlink.remote.ditamap.url}" if="editlink.remote.ditamap.url"/>
+    
+
+    <param name="editlink.web.author.url" expression="${editlink.web.author.url}" if="editlink.web.author.url"/>
+    <param name="editlink.present.only.path.to.topic" expression="${editlink.present.only.path.to.topic}" if="editlink.present.only.path.to.topic"/>
+
+    <param name="editlink.local.ditamap.path" expression="${args.input}"/>
+    <param name="editlink.local.ditaval.path" expression="${args.filter}" if="args.filter"/>
+    
+
+    <param name="com.oxygenxml.xhtml.linkToMediaResources" expression="${com.oxygenxml.xhtml.linkToMediaResources}" if="com.oxygenxml.xhtml.linkToMediaResources"/>
+
+  <param name="input.map.url" expression="${html5.map.url}" if:set="html5.map.url"/>
+  <param name="nav-toc" expression="${html5.nav-toc}" if:set="html5.nav-toc"/>
 
       <mapper classname="org.dita.dost.ant.types.JobMapper" to="${out.ext}"/>
     </html5.topics>
@@ -171,23 +197,23 @@ See the accompanying LICENSE file for applicable license.
     <element name="params" optional="true" implicit="true"/>
     <sequential>
       <pipeline message="Convert DITA topic to HTML5" taskname="xslt">
-      <xslt basedir="${dita.temp.dir}" destdir="${dita.output.dir}" reloadstylesheet="${dita.html5.reloadstylesheet}" classpathref="dost.class.path" extension="${out.ext}" style="${args.xsl}" filenameparameter="FILENAME" filedirparameter="FILEDIR">
-        <ditaFileset format="dita" processingRole="normal"/>
-        <param name="FILTERFILE" expression="${dita.input.valfile.url}" if="dita.input.valfile"/>
-        <param name="CSS" expression="${args.css.file}" if="args.css.file"/>
-        <param name="CSSPATH" expression="${user.csspath}" if="user.csspath"/>
-        <param name="HDF" expression="${args.hdf}" if="args.hdf"/>
-        <param name="HDR" expression="${args.hdr}" if="args.hdr"/>
-        <param name="FTR" expression="${args.ftr}" if="args.ftr"/>
-        <param name="DRAFT" expression="${args.draft}" if="args.draft"/>
-        <param name="ARTLBL" expression="${args.artlbl}" if="args.artlbl"/>
-        <param name="GENERATE-TASK-LABELS" expression="${args.gen.task.lbl}" if="args.gen.task.lbl"/>
-        <param name="PRESERVE-DITA-CLASS" expression="${args.html5.classattr}" if="args.html5.classattr"/>
-        <param name="NOPARENTLINK" expression="${args.hide.parent.link}" if="args.hide.parent.link"/>
+      <xslt destdir="${dita.output.dir}" reloadstylesheet="${dita.html5.reloadstylesheet}" extension="${out.ext}" style="${args.xsl}" filenameparameter="FILENAME" filedirparameter="FILEDIR">
+        <ditafileset format="dita" processingRole="normal"/>
+        <param name="FILTERFILE" expression="${dita.input.valfile.url}" if:set="dita.input.valfile"/>
+        <param name="CSS" expression="${args.css.file}" if:set="args.css.file"/>
+        <param name="CSSPATH" expression="${user.csspath}" if:set="user.csspath"/>
+        <param name="HDF" expression="${args.hdf}" if:set="args.hdf"/>
+        <param name="HDR" expression="${args.hdr}" if:set="args.hdr"/>
+        <param name="FTR" expression="${args.ftr}" if:set="args.ftr"/>
+        <param name="DRAFT" expression="${args.draft}" if:set="args.draft"/>
+        <param name="ARTLBL" expression="${args.artlbl}" if:set="args.artlbl"/>
+        <param name="GENERATE-TASK-LABELS" expression="${args.gen.task.lbl}" if:set="args.gen.task.lbl"/>
+        <param name="PRESERVE-DITA-CLASS" expression="${args.html5.classattr}" if:set="args.html5.classattr"/>
+        <param name="NOPARENTLINK" expression="${args.hide.parent.link}" if:set="args.hide.parent.link"/>
         <param name="include.rellinks" expression="${include.rellinks}"/>
-        <param name="INDEXSHOW" expression="${args.indexshow}" if="args.indexshow"/>
-        <param name="genDefMeta" expression="${args.gen.default.meta}" if="args.gen.default.meta"/>
-        <param name="OUTEXT" expression="${out.ext}" if="out.ext"/>
+        <param name="INDEXSHOW" expression="${args.indexshow}" if:set="args.indexshow"/>
+        <param name="genDefMeta" expression="${args.gen.default.meta}" if:set="args.gen.default.meta"/>
+        <param name="OUTEXT" expression="${out.ext}" if:set="out.ext"/>
         <param name="BASEDIR" expression="${basedir}"/>
         <param name="OUTPUTDIR" expression="${dita.output.dir}"/>
         <param name="defaultLanguage" expression="${default.language}"/>
@@ -206,13 +232,14 @@ See the accompanying LICENSE file for applicable license.
         <isset property="inner.transform"/>
       </condition>
       <pipeline message="Convert DITA map to HTML5" taskname="xslt">
-      <xslt basedir="${dita.temp.dir}" destdir="${html5.toc.output.dir}" includesfile="${dita.temp.dir}${file.separator}${user.input.file.listfile}" classpathref="dost.class.path" style="${args.html5.toc.xsl}">
-        <param name="FILTERFILE" expression="${dita.input.valfile.url}" if="dita.input.valfile"/>
-        <param name="OUTEXT" expression="${out.ext}" if="out.ext"/>
-        <param name="contenttarget" expression="${args.html5.contenttarget}" if="args.html5.contenttarget"/>
-        <param name="CSS" expression="${args.css.file}" if="args.css.file"/>
-        <param name="CSSPATH" expression="${user.csspath}" if="user.csspath"/>
-        <param name="OUTPUTCLASS" expression="${args.html5.toc.class}" if="args.html5.toc.class"/>
+      <xslt destdir="${html5.toc.output.dir}" style="${args.html5.toc.xsl}">
+        <ditafileset input="true"/>
+        <param name="FILTERFILE" expression="${dita.input.valfile.url}" if:set="dita.input.valfile"/>
+        <param name="OUTEXT" expression="${out.ext}" if:set="out.ext"/>
+        <param name="contenttarget" expression="${args.html5.contenttarget}" if:set="args.html5.contenttarget"/>
+        <param name="CSS" expression="${args.css.file}" if:set="args.css.file"/>
+        <param name="CSSPATH" expression="${user.csspath}" if:set="user.csspath"/>
+        <param name="OUTPUTCLASS" expression="${args.html5.toc.class}" if:set="args.html5.toc.class"/>
         <params/>
         <mapper type="merge" to="${args.html5.toc}${out.ext}"/>
         <xmlcatalog refid="dita.catalog"/>

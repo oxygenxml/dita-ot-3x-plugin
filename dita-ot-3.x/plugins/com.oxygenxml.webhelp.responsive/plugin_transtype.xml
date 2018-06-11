@@ -1,5 +1,5 @@
-<transtype name="webhelp-responsive" extends="webhelp-responsive-common" desc="WebHelp Responsive"/>
-<transtype name="webhelp-responsive-common" extends="webhelpCommons" abstract="true">
+<transtype name="webhelp-responsive" extends="webhelp-responsive-common" desc="WebHelp Responsive" xml:base="."/>
+<transtype name="webhelp-responsive-common" extends="webhelpCommons" abstract="true"  xml:base=".">
     <param name="webhelp.topic.collapsible.elements.initial.state"
         desc="Set the inital state of collapsible elements."
         type="enum">
@@ -11,6 +11,9 @@
         type="file"/>
     <param name="webhelp.logo.image.target.url"
         desc="The URL of the link that will be opened when the user clicks the logo image."
+        type="string"/>
+    <param name="webhelp.logo.image.alt"
+        desc="Alternative text for the logo image."
         type="string"/>
     <param name="webhelp.search.ranking"
         desc="If this parameter is set to false, then the 5-star rating mechanism is no longer included in the search results that are displayed on the Search tab (default setting is true)."
@@ -168,6 +171,12 @@
         <val default="true"></val>            
     </param>
     
+    <param name="webhelp.fragment.header"
+        desc="Specifies either an XHTML fragment or the path to an XHTML file. It displays the given XHTML content as header in all generated WebHelp pages."
+        type="file">
+        <val default="true">header.xml</val>            
+    </param>        
+    
     <!-- Before & after html -->
     <param name="webhelp.fragment.before.body"
         desc="Specifies either an XHTML fragment or the path to an XHTML file. The XHTML content will be included at the beginning of the html 'body' element in all generated WebHelp pages."
@@ -248,9 +257,22 @@
         <val default="true">10</val>
         <val>20</val>
     </param>
+    <param name="webhelp.search.stop.words.exclude"
+        desc="Specifies a list of words that should be excluded from the default stop words list.
+        Use comma separator to specify more than one word. Sample: 'if,for'."
+        type="string">        
+    </param>
+    
     <param name="webhelp.default.collection.type.sequence"
         desc="Specifies if the 'sequence' value will be used by default when the collection-type attribute is not specified.
         This option is helpful if you want to have 'Next' and 'Previous' navigational buttons generated for all HTML pages."
+        type="enum">
+        <val default="true">no</val>
+        <val>yes</val>
+    </param>
+    
+    <param name="webhelp.enable.template.js.module.loading"
+        desc="Specifies if the custom JavaScript module specified in the Publishing Template should be loaded or not via a 'require()' call using the RequireJS library."
         type="enum">
         <val default="true">no</val>
         <val>yes</val>

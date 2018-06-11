@@ -11,7 +11,7 @@
   <xsl:param name="editlink.web.author.url"/>
   <xsl:param name="editlink.present.only.path.to.topic"/>
   <xsl:param name="editlink.local.ditamap.path"/>
-  
+  <xsl:param name="editlink.local.ditaval.path"/>
   
   <!-- Override the topic/title processing to add 'Edit Link' action. -->  
   <xsl:template match="*[contains(@class, ' topic/topic ')]/*[contains(@class, ' topic/title ')]">
@@ -54,7 +54,7 @@
           <xsl:otherwise>
             <a target="_blank">
               <xsl:attribute name="href">
-                <xsl:value-of select="editlink:compute($editlink.remote.ditamap.url, $editlink.local.ditamap.path, $xtrf, $editlink.web.author.url)"/>
+                <xsl:value-of select="editlink:compute($editlink.remote.ditamap.url, $editlink.local.ditamap.path, $xtrf, $editlink.web.author.url, $editlink.local.ditaval.path)"/>
               </xsl:attribute>Edit online</a>
           </xsl:otherwise>
         </xsl:choose>

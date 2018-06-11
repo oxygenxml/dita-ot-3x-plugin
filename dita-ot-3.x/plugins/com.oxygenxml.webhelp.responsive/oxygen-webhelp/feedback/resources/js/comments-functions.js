@@ -161,7 +161,6 @@ function initNewComment() {
         $('#commentTitle').html(getLocalization('newPost'));
         $('#newComment').show();
     }
-    refreshEditor();
     $("#commentText").cleditor()[0].clear();
     $('#newComment').hide();
 }
@@ -685,6 +684,16 @@ function refreshEditor() {
     editor.refresh().focus();
     editor.$area.hide();
     editor.$frame.show();
+    $(".cleditorMain iframe").contents().find("body").attr("aria-label", getLocalization("label.cleditorControls"));
+    $(".cleditorMain iframe").contents().find("html").on("keydown", function(ev){
+        if (ev.altKey && ev.key=="s") {
+            $("#l_bt_submit_nc").trigger("click");
+        }
+        if (ev.altKey && ev.key=="`") {
+            $("#l_cancelLogBtn").trigger("click");
+            $("#comments").focus();
+        }
+    });
 }
 
 /**
@@ -864,6 +873,7 @@ function recover() {
  * @returns {boolean}
  */
 function loggInUser(e) {
+    $("#comments").focus();
     // process form
     var userName = $("#myUserName").val();
     var password = $("#myPassword").val();
@@ -908,6 +918,7 @@ function loggInUser(e) {
                         // instead of loading only comments and user data
                         showComments(pagePath);
                         $('#loginData').modal('hide');
+                        $('#comments').focus();
                     }
                 } else {
                     hidePreload();
@@ -932,6 +943,9 @@ function loggInUser(e) {
                             } else {
                                 eraseCookie("oxyAuth");
                             }
+                            $('#loginData').on('hidden.bs.modal', function () {
+                                document.activeElement.blur();
+                            });
                         } else {
                             $("#userAccount").show();
                             $('#newComment').show();
@@ -984,11 +998,6 @@ function showNewCommentDialog() {
  * @description Display / Scroll to new added comment
  */
 function showNewComment() {
-    if (isAnonymous) {
-        $(".realperson-regen").click();
-        $("#defaultReal").val("");
-        $("#defaultReal").html("");
-    }
     $("#newComment").show();
     if (scrollAfterAjax) {
         goToByScroll(scrollAfterAjax);
@@ -1003,14 +1012,7 @@ function showNewComment() {
 function checkReal() {
     debug('checkReal()');
     if (isAnonymous) {
-        var value = $('.hasRealPerson').val();
-        var hash = 5381;
-        for (var i = 0; i < value.length; i++) {
-            hash = ((hash << 5) + hash) + value.charCodeAt(i);
-        }
-
-        return hash == $("#captchaCode").realperson('getHash');
-
+        return "" === $('#question_212').val();
     } else {
         return true;
     }
@@ -1022,7 +1024,6 @@ function checkReal() {
  */
 function postNewComment(pagePath) {
     if (!checkReal()) {
-        alert(getLocalization('invalidCode'));
         return false;
     } else {
         // process form
@@ -1063,10 +1064,6 @@ function postNewComment(pagePath) {
                             $(".anonymous_post_cmt").remove();
                             $("#bt_new").append("<div class='anonymous_post_cmt'>" + getLocalization('comment.moderate.info') + "</div>");
                             goToByScroll("commentsContainer");
-                            $(".realperson-regen").click();
-                            var $defaultReal = $("#defaultReal");
-                            $defaultReal.val("");
-                            $defaultReal.html("");
                         } else {
                             showComments(pagePath);
                         }
@@ -1283,9 +1280,13 @@ function showLoggInDialog() {
     $('#myPassword').val(auth[1]);
     $("#myRemember").attr('checked', (readCookie("oxyAuth") != ""));
 
+    $('#loginData').on('shown.bs.modal',function(ev){
+        $('#l_login2').trigger('click');
+        $('#myUserName').trigger('focus');
+    });
 
     $('#loginData').modal('show');
-    $('#l_login2').trigger('click');
+
     /*$('#loginData').css('top', $(document).scrollTop() + $(window).height() / 2 + 'px').show();*/
 
     $("#recoverPwd").hide();
@@ -1405,6 +1406,7 @@ function updateUserProfile() {
  * @returns {boolean} - Always return FALSE
  */
 function loggOffUser() {
+    $('comments').focus();
     // process form
     var dataString = "&logOff=true&productName=" + productName + "&productVersion=" + productVersion;
     var processLogin = conf.htpath + "resources/php/checkUser.php";

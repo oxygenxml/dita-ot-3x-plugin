@@ -19,7 +19,7 @@ $(document).ready(function(){
     });
 
     $("#l_addNewCmt").click(showNewCommentDialog);
-    $("#bt_recover").click(recover);
+    $("#recoverPwd form").submit(recover);
 
     //debug("js 4");
     $("#bt_yesDelete").click(deleteComment);
@@ -34,15 +34,19 @@ $(document).ready(function(){
 
     $("#bt_logIn").click(function () {
         $(".anonymous_post_cmt").remove();
+        $('#loginData').off('shown.bs.modal');
         $('#loginResponse').html('');
         showLoggInDialog();
     });
 
     $("#bt_signUp").click(function (e) {
+        $('#loginData').off('shown.bs.modal');
         // show signup form
         $("#signUpResponse").html('');
         $('#loginData').modal('show');
-        $('#l_signUp2').trigger('click');
+        $('#loginData').on('shown.bs.modal',function(ev){
+            $('#l_signUp2').trigger('click');
+        });
 
         // get the shared projects
         sharedWith();

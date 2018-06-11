@@ -13,13 +13,8 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
     xmlns:xhtml="http://www.w3.org/1999/xhtml" version="2.0">
 
 
-    <!-- TODO: HTML5 change -->
-    <!-- EXM-34368 Stylesheet to handle DITA elements -->    
-    <!-- Use XHTML stylesheets for DITA-OT 1.8 -->
-    <xsl:import href="plugin:org.dita.xhtml:xsl/dita2html-base.xsl" use-when="starts-with(system-property('DOT_VERSION'), '1.')"/>
-    
     <!-- Use HTML5 stylesheets for DITA-OT 2.x or newer -->
-    <xsl:import href="plugin:org.dita.html5:xsl/dita2html5Impl.xsl" use-when="not(starts-with(system-property('DOT_VERSION'), '1.'))"/>
+    <xsl:import href="plugin:org.dita.html5:xsl/dita2html5Impl.xsl"/>
     
     <xsl:import href="../util/dita-utilities.xsl"/>
     <xsl:import href="../util/functions.xsl"/>
@@ -27,7 +22,7 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
     <xsl:import href="../util/relpath_util.xsl"/>
 
     <xsl:import href="../util/fixupNS.xsl"/>
-
+    
     <xsl:output method="xml" encoding="UTF-8"/>
 
     <!-- Extension of output files for example .html -->
@@ -329,7 +324,8 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
         <xsl:choose>
             <xsl:when
                 test="
-                    exists($xtrf) and exists($mapXtrf)
+                    not(parent::node()/@scope = 'external') (: WH-1837 Avoid fixing external links :) 
+                    and exists($xtrf) and exists($mapXtrf)
                     and not(doc-available(concat(relpath:getParent(base-uri(.)), '/', $href)))">
                 <xsl:variable name="pDoc" select="relpath:getParent(relpath:toUrl($xtrf))"/>
 

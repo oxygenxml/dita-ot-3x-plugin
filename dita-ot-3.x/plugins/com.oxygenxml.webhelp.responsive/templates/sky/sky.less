@@ -213,9 +213,9 @@ a:hover {
   font-size: 1em;
 }
 
+.wh_print_link button,
 .webhelp_expand_collapse_sections,
 .wh_hide_highlight,
-.wh_print_link a,
 .wh_navigation_links a,
 .wh_navigation_links a:hover,
 .wh_navigation_links a:active,
@@ -688,4 +688,17 @@ Example:
 
 .wh_index_terms #indexList {
   padding: 0;
+}
+
+/* Search pre-loader */
+.fakeTitle {
+  background-color: @linkColor;
+}
+
+.fakeText {
+  background-color: @contentColor;
+}
+
+.fakeText:before {
+  background-color: lighten(@contentColor, 20%);
 }

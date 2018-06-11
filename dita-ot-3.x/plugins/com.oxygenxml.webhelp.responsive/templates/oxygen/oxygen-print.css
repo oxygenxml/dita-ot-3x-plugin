@@ -1,0 +1,24 @@
+/* Use the WebHelp main CSS */
+@import "oxygen.css";
+
+/* Now specific rules for the print output. */
+@page :left, :right, table-of-contents:left, table-of-contents:right, chapter:left, chapter:right{
+
+    @top-left{
+        font-size: 10pt;
+        font-family: Roboto;
+    }
+    
+    @top-right{
+        font-size: 10pt;
+        font-family: Roboto;
+    }
+}
+
+body {
+	font-size: 10pt;
+}
+
+code {
+  padding:2px 4px;
+}

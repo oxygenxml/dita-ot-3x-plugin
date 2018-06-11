@@ -2,7 +2,9 @@
 <xsl:stylesheet
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:toc="http://www.oxygenxml.com/ns/webhelp/toc" xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:st="http://www.oxygenxml.com/ns/webhelp/side-toc" exclude-result-prefixes="xs toc st" version="2.0">
+    xmlns:xhtml="http://www.w3.org/1999/xhtml"
+    xmlns:st="http://www.oxygenxml.com/ns/webhelp/side-toc" 
+    exclude-result-prefixes="xs toc st xhtml" version="2.0">
 
 		<!-- It sets how many nodes are visible before and after current node -->
 		<xsl:variable name="nodesVisible" select="100"/>
@@ -187,9 +189,12 @@
                     </xsl:call-template>
                 </xsl:variable>
                 <xsl:result-document format="html" href="{$outputHref}">
-                    <ul>
-                        <xsl:copy-of select="$currentNodeSideToc"/>
-                    </ul>
+                    <xsl:variable name="publicationToc">
+                        <ul>
+                            <xsl:copy-of select="$currentNodeSideToc"/>
+                        </ul>
+                    </xsl:variable>
+                    <xsl:apply-templates select="$publicationToc" mode="accessibility"/>
                 </xsl:result-document>
             </xsl:if>
         </xsl:if>
@@ -205,6 +210,88 @@
         </xsl:if>
         
     </xsl:template>
+    
+    <!-- Copy template for 'accesibility' mode. -->
+    <xsl:template match="node() | @*" mode="accessibility">
+        <xsl:copy>
+            <xsl:apply-templates select="node() | @*" mode="accessibility"/>
+        </xsl:copy>
+    </xsl:template>
+    
+    <xsl:variable name="expandActionID" as="xs:string">button-expand-action</xsl:variable>
+    <xsl:variable name="collapseActionID" as="xs:string">button-collapse-action</xsl:variable>
+    <xsl:variable name="pendingActionID" as="xs:string">button-pending-action</xsl:variable>
+    
+    <xsl:template match="xhtml:ul" mode="accessibility">
+        <xsl:copy>
+            <xsl:variable name="isRoot" as="xs:boolean" select="count(parent::*) = 0"/>
+            <xsl:attribute name="role">
+                <xsl:choose>
+                    <xsl:when test="$isRoot">
+                        <xsl:value-of>tree</xsl:value-of>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of>group</xsl:value-of>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:attribute>
+            <xsl:if test="$isRoot">
+                <xsl:attribute name="aria-label">Table of Contents</xsl:attribute>
+            </xsl:if>
+            
+            <xsl:apply-templates select="@*" mode="accessibility"/>
+            <span class="expand-button-action-labels">
+                <span id="{$expandActionID}" aria-label="Expand"/>
+                <span id="{$collapseActionID}" aria-label="Collapse"/>
+                <span id="{$pendingActionID}" aria-label="Pending"/>
+            </span>
+            <xsl:apply-templates select="node()" mode="accessibility"/>
+        </xsl:copy>
+    </xsl:template>
+    
+    <xsl:template match="xhtml:li" mode="accessibility">
+        <xsl:copy>
+            <xsl:variable name="state" select="xhtml:span/@data-state"/>
+            <xsl:attribute name="role">treeitem</xsl:attribute>
+            <xsl:if test="not($state = 'leaf')">
+                <xsl:attribute name="aria-expanded">
+                    <xsl:choose>
+                        <xsl:when test="$state = 'expanded'">
+                            <xsl:value-of>true</xsl:value-of>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:value-of>false</xsl:value-of>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:attribute>
+            </xsl:if>
+            <xsl:apply-templates select="node() | @*" mode="accessibility"/> 
+        </xsl:copy>
+    </xsl:template>
+    
+    <xsl:template match="xhtml:span[contains(@class, 'wh-expand-btn')]" mode="accessibility">
+        <xsl:copy>
+            <xsl:variable name="state" select="parent::xhtml:span/@data-state"/>
+            <xsl:attribute name="role">button</xsl:attribute>
+            <xsl:if test="not($state = 'leaf')">
+                <xsl:attribute name="tabindex">0</xsl:attribute>
+                <xsl:attribute name="aria-labelledby">
+                    <xsl:choose>
+                        <xsl:when test="$state = 'expanded'">
+                            <xsl:value-of select="$collapseActionID"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:value-of select="$expandActionID"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                    <xsl:value-of select="' '"/>
+                    <xsl:value-of select="following-sibling::xhtml:span[contains(@class, 'title')]/xhtml:a/@id"/>
+                </xsl:attribute>
+            </xsl:if>
+            <xsl:apply-templates select="node() | @*" mode="accessibility"/>
+        </xsl:copy>
+    </xsl:template>
+    
 
     <!-- Copy template. -->
     <xsl:template match="node() | @*" mode="linkInParent">
@@ -311,7 +398,7 @@
                 </xsl:variable>
                 <span class="wh-expand-btn"/>
                 <span class="title">
-                    <a href="{$hrefValue}">
+                    <a href="{$hrefValue}" id="{@wh-toc-id}-link">
                         <xsl:if test="@scope='external'">
                             <!-- Mark the current link as being external to the DITA map. -->
                             <xsl:attribute name="data-scope">external</xsl:attribute>

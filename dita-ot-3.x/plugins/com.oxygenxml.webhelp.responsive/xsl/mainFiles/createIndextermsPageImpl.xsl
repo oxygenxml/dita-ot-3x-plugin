@@ -11,12 +11,12 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
   xmlns:index="http://www.oxygenxml.com/ns/webhelp/index"   
   xmlns:oxygen="http://www.oxygenxml.com/functions" xmlns:d="http://docbook.org/ns/docbook"
   xmlns:whc="http://www.oxygenxml.com/webhelp/components" xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:html="http://www.w3.org/1999/xhtml"
   xmlns:xs="http://www.w3.org/2001/XMLSchema" 
   exclude-result-prefixes="#all" version="2.0">
   
   <!-- Used to expand common WebHelp components like menu -->
   <xsl:import href="../template/commonComponentsExpander.xsl"/>
-  <xsl:import href="../util/macroExpander.xsl"/>
   
   <!-- Localization of text strings displayed in Webhelp output. -->
   <xsl:import href="../util/dita-utilities.xsl"/> 
@@ -25,7 +25,7 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
   <!-- XSLT library to work with paths -->
   <xsl:import href="../util/relpath_util.xsl"/>  
   <xsl:import href="../util/fixupNS.xsl"/>
-  
+    
   <!-- Declares all available parameters -->
   <xsl:include href="params.xsl"/>
   
@@ -35,7 +35,8 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
     indent="no"
     doctype-public=""
     doctype-system="about:legacy-compat"
-    omit-xml-declaration="yes"/>
+    omit-xml-declaration="yes"
+    include-content-type="no"/>
   
   <!-- EXM-36947 Used to translate katakana chars to hiragana when grouping index terms. -->
   <!-- アカサタナハマヤラワイキシチニヒミリヰウクスツヌフムユルエケセテネヘメレヱオコソトノホモヨロヲ -->
@@ -70,10 +71,12 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
     Creates the index terms file using the given template.
   -->
   <xsl:template match="/">
+    <xsl:variable name="template_base_uri" select="base-uri()"/>
     <!-- Expand the components index terms template -->    
     <xsl:apply-templates mode="copy_template">
       <!-- EXM-36737 - Context node used for messages localization -->
-      <xsl:with-param name="i18n_context" select="$i18n_context/*" tunnel="yes" as="element()"/>                
+      <xsl:with-param name="i18n_context" select="$i18n_context/*" tunnel="yes" as="element()"/>
+      <xsl:with-param name="template_base_uri" select="$template_base_uri" tunnel="yes"/>
     </xsl:apply-templates>
     
   </xsl:template>
@@ -91,11 +94,28 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
       'http://saxon.sf.net/collation?alphanumeric=yes;normalization=yes;ignore-case=yes;lang=', 
       $webhelp_language)"/>
     
+    <xsl:variable name="indexTermsAlphabetLabel">
+      <xsl:for-each select="$i18n_context[1]">
+        <xsl:call-template name="getWebhelpString">
+          <xsl:with-param name="stringName" select="'index.terms.alphabet'"/>
+        </xsl:call-template>
+      </xsl:for-each>
+    </xsl:variable>
+    
+    <xsl:variable name="indexTermsLetterLabel">
+      <xsl:for-each select="$i18n_context[1]">
+        <xsl:call-template name="getWebhelpString">
+          <xsl:with-param name="stringName" select="'index.terms.for.letter'"/>
+        </xsl:call-template>
+      </xsl:for-each>
+    </xsl:variable>
+    
+    
     <!-- 
       Generates the list of the letters from terms list 
       EXM-37491
     -->
-    <ul class="wh-letters">      
+    <ul class="wh-letters" tabindex="0" aria-label="{$indexTermsAlphabetLabel}">      
       <xsl:for-each-group select="index:term" group-by="
         upper-case(
         translate(
@@ -105,7 +125,8 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
         <xsl:sort select="current-grouping-key()" collation="{$collation}"/>
       <!-- Output the first letter -->
         <li>
-          <a href="#whletter_{escape-html-uri(lower-case(current-grouping-key()))}">
+          <a href="#whletter_{escape-html-uri(lower-case(current-grouping-key()))}" 
+            aria-label="{concat($indexTermsLetterLabel, ' ', current-grouping-key())}">
             <xsl:value-of select="current-grouping-key()"/>
           </a>
         </li>
@@ -121,7 +142,9 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
         collation="{$collation}">
         <xsl:sort select="current-grouping-key()" collation="{$collation}"/>
         <!-- Output the first letter -->
-        <li class="wh_term_group" id="whletter_{escape-html-uri(lower-case(current-grouping-key()))}">
+        <li class="wh_term_group" id="whletter_{escape-html-uri(lower-case(current-grouping-key()))}"
+          aria-label="{concat($indexTermsLetterLabel, ' ', current-grouping-key())}"
+          tabindex="0">
         <span class="wh_first_letter"><xsl:value-of 
           select="current-grouping-key()"/></span>
         <ul>
@@ -135,6 +158,18 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
     </xsl:for-each-group>
     </ul>
   </xsl:template>
+  
+  <xsl:template match="html:html" mode="copy_template">
+    <xsl:copy>
+      <xsl:apply-templates select="@*" mode="#current"/>
+      <xsl:attribute name="lang" select="oxygen:getParameter('webhelp.language')"/>
+      <xsl:attribute name="dir" select="oxygen:getParameter('webhelp.page.direction')"/>
+      
+      <!-- Copy elements -->
+      <xsl:apply-templates select="node()" mode="#current"/>
+    </xsl:copy>
+  </xsl:template>
+  
   <!--
     Template used to generate indexterms
   -->
@@ -169,11 +204,23 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
   <xsl:template match="index:term" mode="create-index">
     <!-- EXM-36947 - Use a collation to support multi language sort -->
     <xsl:param name="collation"/>
+    <xsl:param name="parentIndexTerm" select="''"/>
     <li class="wh_term">
       <span><xsl:value-of select="@name"/></span>
+      
+      <xsl:variable name="indexTermLabel">
+        <xsl:for-each select="$i18n_context[1]">
+          <xsl:call-template name="getWebhelpString">
+            <xsl:with-param name="stringName" select="'index.term'"/>
+          </xsl:call-template>
+        </xsl:for-each>
+      </xsl:variable>
+      
       <!-- Generate links for each target -->
+      <xsl:variable name="cTerm" select="@name"/>
       <xsl:for-each select="index:target">
-        <a class="wh_term_target" href="{.}">[<xsl:value-of select="position()"/>]</a>
+        <a class="wh_term_target" href="{.}" 
+          aria-label="{concat($indexTermLabel, $parentIndexTerm, ' ', $cTerm)}">[<xsl:value-of select="position()"/>]</a>
       </xsl:for-each>
       
       <!-- Handle nested index terms -->
@@ -182,6 +229,9 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
           <xsl:apply-templates mode="#current" select="index:term">
             <xsl:sort select="@sort-as" collation="{$collation}"/>
             <xsl:with-param name="collation" select="$collation"/>
+            <xsl:with-param 
+              name="parentIndexTerm" 
+              select="concat($parentIndexTerm, ' ', @name)"></xsl:with-param>
           </xsl:apply-templates>
         </ul>
       </xsl:if>

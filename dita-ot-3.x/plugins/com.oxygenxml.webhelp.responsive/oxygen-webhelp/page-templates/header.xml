@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<nav class="navbar navbar-default wh_header"
+<header class="navbar navbar-default wh_header"
      xmlns="http://www.w3.org/1999/xhtml"
      xmlns:whc="http://www.oxygenxml.com/webhelp/components">
     <div class="container-fluid">
@@ -18,14 +18,15 @@
                 </div>
                 
                 <!-- The menu button for mobile devices is copied in the output only when the 'webhelp.show.top.menu' parameter is set to 'yes' -->
-                <button type="button" data-target=".wh_top_menu_and_indexterms_link" id="wh_menu_mobile_button" data-toggle="collapse" class="navbar-toggle collapsed wh_toggle_button">
+                <button type="button" data-target="#wh_top_menu_and_indexterms_link" id="wh_menu_mobile_button" data-toggle="collapse" class="navbar-toggle collapsed wh_toggle_button"
+                    aria-expanded="false" aria-label="${i18n(toggle.menu)}">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
             </div>
 
-            <div class="wh_top_menu_and_indexterms_link collapse navbar-collapse">
+            <div class="wh_top_menu_and_indexterms_link collapse navbar-collapse" id="wh_top_menu_and_indexterms_link">
                 <whc:include_html href="${webhelp.fragment.before.top_menu}"/>
                 <whc:webhelp_top_menu />
                 <whc:webhelp_indexterms_link/>
@@ -33,4 +34,4 @@
             </div>
         </div>
     </div>
-</nav>
+</header>

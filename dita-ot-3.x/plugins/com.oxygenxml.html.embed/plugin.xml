@@ -2,7 +2,7 @@
 <plugin id="com.oxygenxml.html.embed">
   <feature extension="package.support.name" value="Oxygen XML Editor Support"/>
   <feature extension="package.support.email" value="support@oxygenxml.com"/>
-  <feature extension="package.version" value="20.0"/>
-  <!-- TODO: HTML5 change -->
+  <feature extension="package.version" value="20.1"/>
   <feature extension="dita.xsl.xhtml" value="xhtmlEmbed.xsl" type="file"/>
+  <feature extension="dita.xsl.html5" value="xhtmlEmbed.xsl" type="file"/>
 </plugin>

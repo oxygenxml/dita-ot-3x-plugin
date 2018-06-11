@@ -11,7 +11,11 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
   xmlns:oxygen="http://www.oxygenxml.com/functions"
   exclude-result-prefixes="File oxygen">
 
+  <!--
   <xsl:import href="plugin:org.dita.xhtml:xsl/dita2xhtml.xsl"/>
+  -->
+  <xsl:import href="plugin:org.dita.html5:xsl/dita2html5Impl.xsl"/>
+  
   <xsl:import href="rel-links.xsl"/>
   <xsl:import href="../functions.xsl"/>
   <xsl:import href="../localization.xsl"/>
@@ -214,7 +218,7 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
       </xsl:variable>
       <xsl:if test="string-length($indexterms-content)>0">
           <meta name="indexterms" content="{$indexterms-content}"/>
-          <xsl:value-of select="$newline"/>
+          
       </xsl:if>
       <xsl:apply-imports/>
   </xsl:template>

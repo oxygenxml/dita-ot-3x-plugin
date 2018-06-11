@@ -21,4 +21,14 @@
             <parameter name="webhelp.top.menu.depth" value="3"/>
         </parameters>
     </webhelp>
+    <pdf>
+    	<preview-image file="ashes-tiles.png"/>
+    	 <tags>
+            <tag type="layout">tiles</tag>
+            <tag type="color">dark</tag>
+        </tags>
+        <resources>
+            <css file="ashes-print.css"/>
+        </resources>
+    </pdf>
 </publishing-template>

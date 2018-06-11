@@ -1,9 +1,9 @@
-Oxygen Webhelp Plugin 20.0-SNAPSHOT, build 2018041315 
+Oxygen Webhelp Plugin 20.1-SNAPSHOT, build 2018061112 
 
 INTRODUCTION
 =============
 
-This directory contains the Oxygen Webhelp plugin version 20.0-SNAPSHOT for DITA Open Toolkit. The Webhelp output files are exactly the same as for the DITA Webhelp transformations executed inside the Oxygen XML Editor 20.0-SNAPSHOT application. The plugin must be first integrated in the DITA Open Toolkit for adding the following transformation types to the DITA Open Toolkit:
+This directory contains the Oxygen Webhelp plugin version 20.1-SNAPSHOT for DITA Open Toolkit. The Webhelp output files are exactly the same as for the DITA Webhelp transformations executed inside the Oxygen XML Editor 20.1-SNAPSHOT application. The plugin must be first integrated in the DITA Open Toolkit for adding the following transformation types to the DITA Open Toolkit:
 
 webhelp           - The Webhelp transformation for desktop output
 

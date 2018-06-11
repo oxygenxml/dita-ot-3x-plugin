@@ -463,6 +463,7 @@ Example:
   background-color: @searchButtonHoverColor /*rgba(255, 255, 255, 0.1)*/;
 }
 
+@media screen {
 /* Search field placeholder */
 
 ::-webkit-input-placeholder {
@@ -489,6 +490,7 @@ Example:
   -webkit-text-fill-color: @searchFieldColor;
   -webkit-box-shadow: none;
   transition: background-color 5000s ease-in-out 0s;
+}
 }
 
 
@@ -521,9 +523,10 @@ Example:
   margin: 2em 1em;
   font-size: 1em;
 }
+
+.wh_print_link button,
 .webhelp_expand_collapse_sections,
 .wh_hide_highlight,
-.wh_print_link a,
 .wh_navigation_links a,
 .wh_navigation_links a:hover,
 .wh_navigation_links a:active,

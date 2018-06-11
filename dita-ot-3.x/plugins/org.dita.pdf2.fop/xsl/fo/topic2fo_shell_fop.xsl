@@ -15,6 +15,7 @@ See the accompanying LICENSE file for applicable license.
   <xsl:import href="tables_fop.xsl"/>
   <xsl:import href="index_fop.xsl"/>
   <xsl:import href="flagging_fop.xsl"/>
+  <xsl:import href="topic_fop.xsl"/>
 
   <xsl:import xmlns:dita="http://dita-ot.sourceforge.net" href="../../../mathml/pdfMathML.xsl"/><xsl:import href="../../../com.oxygenxml.editlink/xslfo.xsl"/><xsl:import href="../../../com.oxygenxml.highlight/pdfHighlight.xsl"/><xsl:import href="../../../com.oxygenxml.image.float/customFO.xsl"/><xsl:import href="../../../com.oxygenxml.media/pdfMedia.xsl"/><xsl:import href="../../../com.oxygenxml.pdf.custom/custom.xsl"/><xsl:import href="../../../com.oxygenxml.pdf.review/review/review-pis-to-elements-pdf-classic.xsl"/><xsl:import href="../../../org.dita-community.common.xslt/xsl/commonXsltExtensionSupport.xsl"/><xsl:import href="../../../org.dita-community.dita13.pdf/xsl/dita13Vocab2Pdf.xsl"/>
 

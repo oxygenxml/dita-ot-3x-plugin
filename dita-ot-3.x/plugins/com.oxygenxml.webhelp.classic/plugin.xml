@@ -9,14 +9,17 @@ Copyright (c) 1998-2018 Syncro Soft SRL, Romania.  All rights reserved.
  <!ENTITY commons SYSTEM 'plugin_commons.xml'>
 ]>
 <plugin id="com.oxygenxml.webhelp.classic">
+  <require plugin="org.dita.html5"/>
+  <require plugin="com.oxygenxml.common"/>
+  
   &commons;
   <feature extension="com.oxygenxml.classic.main.target.dependencies" value="build-init, 
     check-license, 
     check-webhelp-feedback-parameters,
     dita.map.webhelp.init, 
     preprocess,
-    xhtml.init,
-    xhtml.image-metadata,
+    html5.init,
+    html5.image-metadata,
     dita.out.map.webhelp.toc,
     dita.webhelp.sitemap.xml,
     copy-webhelp-resources,

@@ -385,29 +385,31 @@ Example:
 .wh_search_button:hover {
   background-color: #61a8df /*rgba(255, 255, 255, 0.1)*/;
 }
-/* Search field placeholder */
-::-webkit-input-placeholder {
-  color: #3a444a;
-}
-:-moz-placeholder {
-  /* Firefox 18- */
-  color: #3a444a;
-}
-::-moz-placeholder {
-  /* Firefox 19+ */
-  color: #3a444a;
-}
-:-ms-input-placeholder {
-  color: #3a444a;
-}
-/* Change Autocomplete styles in Chrome */
-:-webkit-autofill,
-:-webkit-autofill:hover,
-:-webkit-autofill:focus {
-  border: 1px solid #3a444a;
-  -webkit-text-fill-color: #3a444a;
-  -webkit-box-shadow: none;
-  transition: background-color 5000s ease-in-out 0s;
+@media screen {
+  /* Search field placeholder */
+  ::-webkit-input-placeholder {
+    color: #3a444a;
+  }
+  :-moz-placeholder {
+    /* Firefox 18- */
+    color: #3a444a;
+  }
+  ::-moz-placeholder {
+    /* Firefox 19+ */
+    color: #3a444a;
+  }
+  :-ms-input-placeholder {
+    color: #3a444a;
+  }
+  /* Change Autocomplete styles in Chrome */
+  :-webkit-autofill,
+  :-webkit-autofill:hover,
+  :-webkit-autofill:focus {
+    border: 1px solid #3a444a;
+    -webkit-text-fill-color: #3a444a;
+    -webkit-box-shadow: none;
+    transition: background-color 5000s ease-in-out 0s;
+  }
 }
 /*
  * ------------------------------------------------------------------
@@ -434,9 +436,9 @@ Example:
   margin: 2em 1em;
   font-size: 1em;
 }
+.wh_print_link button,
 .webhelp_expand_collapse_sections,
 .wh_hide_highlight,
-.wh_print_link a,
 .wh_navigation_links a,
 .wh_navigation_links a:hover,
 .wh_navigation_links a:active,

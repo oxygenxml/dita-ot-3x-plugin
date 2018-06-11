@@ -9,7 +9,7 @@ See the accompanying LICENSE file for applicable license.
   <!-- Start of Ant Messages -->
   <message id="DOTA001F" type="FATAL">
     <reason>"%1" is not a recognized transformation type.</reason>
-    <response>Supported transformation types are dita, eclipsehelp, exportmap, html5, htmlhelp, markdown, markdown_gitbook, markdown_github, merged, metrics-report, pdf, pdf-css, pdf2, tocjs, troff, webhelp, webhelp-feedback, webhelp-responsive, webhelp-responsive-preprocess2, webhelpCommons, xhtml.</response>
+    <response>Supported transformation types are dita, eclipsehelp, exportmap, html5, htmlhelp, markdown, markdown_gitbook, markdown_github, merged, metrics-report, pdf, pdf-css, pdf-css-html5, pdf2, tocjs, troff, webhelp, webhelp-feedback, webhelp-responsive, webhelp-responsive-preprocess2, webhelpCommons, xhtml.</response>
   </message>
   
   <message id="DOTA002F" type="FATAL">
@@ -44,6 +44,10 @@ See the accompanying LICENSE file for applicable license.
     <reason>Cannot find the specified DITAVAL '%1'.</reason>
     <response/>
   </message>
+  <message id="DOTA014W" type="WARN">
+    <reason>Attribute @%1 is deprecated.</reason>
+    <response>Use attribute @%2 instead.</response>
+  </message>
 
   <!-- Start of Java Messages -->
   
@@ -56,6 +60,11 @@ See the accompanying LICENSE file for applicable license.
     <response>Please ensure that '%1' exists and that you have permission to access it.</response>
   </message>
   
+  <message id="DOTJ007W" type="WARN">
+    <reason>Duplicate condition in filter file for rule '%1'.</reason>
+    <response>The first encountered condition will be used.</response>
+  </message>
+
   <message id="DOTJ007E" type="ERROR">
     <reason>Duplicate condition in filter file for rule '%1'.</reason>
     <response>The first encountered condition will be used.</response>
@@ -205,7 +214,7 @@ See the accompanying LICENSE file for applicable license.
   </message>
   
   <message id="DOTJ045I" type="INFO">
-    <reason>The key "%1" is defined more than once in the same map file. The reference href="%2" is ignored.</reason>
+    <reason>The key "%1" is defined more than once in the same map file.</reason>
     <response/>
   </message>
   
@@ -363,6 +372,11 @@ See the accompanying LICENSE file for applicable license.
 
   <message id="DOTJ076W" type="WARN">
     <reason>Absolute link '%1' without correct 'scope' attribute.</reason>
+    <response/>
+  </message>
+  
+  <message id="DOTJ077F" type="FATAL">
+    <reason>Invalid action attribute '%1' on DITAVAL property.</reason>
     <response/>
   </message>
 

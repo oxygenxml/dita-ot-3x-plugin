@@ -1,45 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?><!-- Extend the toolkit's XHTML processing to generate WebHelp output. , Romania.  All rights reserved.
 
---><!-- Extend the toolkit's XHTML processing to generate WebHelp output. --><project xmlns:dita="http://dita-ot.sourceforge.net" name="webhelp.responsive.integrator" default="dita2webhelp-responsive" basedir=".">
+--><!-- Extend the toolkit's XHTML processing to generate WebHelp output. --><project xmlns:dita="http://dita-ot.sourceforge.net" xmlns:if="ant:if" xmlns:unless="ant:unless" name="webhelp.responsive.integrator" default="dita2webhelp-responsive" basedir=".">
   
+  <property name="com.oxygenxml.common.dir" value="${dita.plugin.com.oxygenxml.common.dir}"/>
   <!-- 
     Task definition for ant-contrib library.
   -->
   <taskdef resource="net/sf/antcontrib/antlib.xml">
     <classpath>
-      <pathelement location="${webhelp.responsive.dir}/lib/ant-contrib-1.0b3.jar"/>
+      <pathelement location="${com.oxygenxml.common.dir}/lib/ant-contrib-1.0b3.jar"/>
     </classpath>
   </taskdef>
   
   <!--
     Main target to create WebHelp Responsive output.
   -->
-  <target name="dita2webhelp-responsive" depends="whr-init,preprocess,xhtml.init,xhtml.image-metadata,whr-detect-lang,whr-collect-indexterms,whr-create-props-file,whr-toc-xml,whr-nav-links,whr-context-help-map,whr-sitemap,whr-copy-resources,copy-css,dita.topics.html.common,whr-create-topic-pages,whr-create-main-files,whr-search-index">    
+  <target name="dita2webhelp-responsive" depends="whr-init,preprocess,html5.init,html5.image-metadata,whr-detect-lang,whr-collect-indexterms,whr-create-props-file,whr-toc-xml,whr-nav-links,whr-context-help-map,whr-sitemap,whr-copy-resources,copy-css,dita.topics.html.common,whr-create-topic-pages,whr-create-main-files,whr-search-index">    
   </target>
   
   <!--
     Main target to create WebHelp Responsive output.
   -->
-  <target name="dita2webhelp-responsive-preprocess2" depends="whr-init,preprocess2,whr-after.preprocess,xhtml.init,xhtml.image-metadata,whr-detect-lang,whr-collect-indexterms,whr-create-props-file,whr-toc-xml,whr-nav-links,whr-context-help-map,whr-sitemap,whr-copy-resources,copy-css,dita.topics.html.common,whr-create-topic-pages,whr-create-main-files,whr-search-index">    
+  <target name="dita2webhelp-responsive-preprocess2" depends="whr-init,preprocess,html5.init,html5.image-metadata,whr-detect-lang,whr-collect-indexterms,whr-create-props-file,whr-toc-xml,whr-nav-links,whr-context-help-map,whr-sitemap,whr-copy-resources,copy-css,dita.topics.html.common,whr-create-topic-pages,whr-create-main-files,whr-search-index">    
   </target>
   
   <!-- Targets used to inialize the WebHelp Responsive build -->
-  <target name="whr-init" depends="log-whr-version, build-init, whr-init-classpath, whr-init-publishing-template, whr-init-properties, whr-init-collection-type-prop, whr-check-license, whr-check-feedback-params"/>
+  <target name="whr-init" depends="log-whr-version, build-init, whr-init-classpath, whr-init-publishing-template, whr-init-properties, whr-init-collection-type-prop, whr-check-feedback-params"/>
 
   <target name="log-whr-version">
     <echo>Oxygen XML WebHelp ${webhelp.version} build ${webhelp.build.number}</echo>
   </target>
   
-  <target name="whr-init-classpath">
+  <target name="whr-init-classpath">    
+    <!-- Plugin classpath. -->
     <!-- Directory of the WebHelp plugin. -->
     <property name="webhelp.responsive.dir" value="${dita.plugin.com.oxygenxml.webhelp.responsive.dir}"/>  
-    
-    <!-- Directory with WebHelp library files -->
-    <property name="webhelp.responsive.lib.dir" value="${webhelp.responsive.dir}/lib"/>
-    
-    <!-- Plugin classpath. -->
+
     <path id="wh_classpath">      
-      <fileset dir="${webhelp.responsive.lib.dir}">
+      <fileset dir="${com.oxygenxml.common.dir}/lib">
         <include name="*.jar"/>
       </fileset>
     </path>
@@ -57,8 +55,6 @@
     <!-- Task used to load properties for a custom template. -->
     <taskdef name="templatetask" classname="com.oxygenxml.publishing.template.PublishingTemplateTask" classpathref="wh_classpath"/>
         
-    <echo>Using custom WebHelp Responsive Template package: ${webhelp.publishing.template}</echo>
-    
     <condition property="template.descriptor.name" value="${webhelp.publishing.template.descriptor}" else="">
       <isset property="webhelp.publishing.template.descriptor"/>
     </condition>
@@ -66,7 +62,7 @@
 	<!-- WH-1827 Use default XML catalog -->    
     <makeurl property="webhelp.default.xml.catalog.url" file="${dita.plugin.com.oxygenxml.webhelp.responsive.dir}/xsl/template_catalog.xml"/>
     
-    <templatetask outputDir="${output.dir}" tempDir="${dita.temp.dir}" templateDescriptor="${template.descriptor.name}" templateRootPath="${webhelp.publishing.template}"/>    
+    <templatetask outputDir="${output.dir}" tempDir="${dita.temp.dir}" pluginDir="${webhelp.responsive.dir}" templateDescriptor="${template.descriptor.name}" templateRootPath="${webhelp.publishing.template}" defaultXMLCatalog="${webhelp.default.xml.catalog.url}" transtype="webhelp-responsive"/>    
   </target>
 
   <!--
@@ -99,9 +95,6 @@
         WebHelp general properties
       =============================
     -->    
-    <!-- Directory with WebHelp library files -->
-    <property name="webhelp.responsive.lib.dir" value="${webhelp.responsive.dir}/lib"/>
-
     <!-- The file where all build properties are serialized. This file is used to read the properties into the XSLT stylesheets. -->
     <property name="webhelp.responsive.parameters.file" location="${dita.temp.dir}/props.xml"/>
     
@@ -111,13 +104,8 @@
     <available file="${webhelp.custom.resources}" property="webhelp.custom.resources.present"/>
     
     <!-- WebHelp version & build number. -->
-    <property name="webhelp.version" value="20.0-SNAPSHOT"/>
-    <property name="webhelp.build.number" value="2018020913"/>
-    
-    <!-- Store the current time stamp in the given property. -->	
-    <tstamp>
-      <format property="whr.gen.time" pattern="yyyyMMddhhmmss"/>
-    </tstamp>
+    <property name="webhelp.version" value="20.1-SNAPSHOT"/>
+    <property name="webhelp.build.number" value="2018061112"/>
     
     <!-- Condition to enable the Feedback feature. --> 
     <condition property="webhelp.feedback.enabled">
@@ -149,7 +137,10 @@
     <property name="webhelp.show.topic.toc" value="yes"/>
     
     <property name="webhelp.top.menu.depth" value="3"/>
-
+    
+    <!-- WH-1938 Enable/Disable the loading of the template's custom JS module loading -->
+    <property name="webhelp.enable.template.js.module.loading" value="no"/>
+    
     <!-- Google search parameters: convert the file paths to URLs -->
     <if>
       <isset property="webhelp.google.search.script"/>
@@ -182,6 +173,8 @@
 		Property used to disable search autocomplete 
 	-->
     <property name="webhelp.enable.search.autocomplete" value="true"/>
+    <property name="webhelp.search.stop.words.exclude" value=""/>
+    
     
     <!-- 
 		Property used to disable search pagination
@@ -193,10 +186,10 @@
     <!-- Specify the prefix to be used when accessing environment variables. -->
     <property environment="env"/>
     
-    <property name="webhelp.responsive.xsl.extensions.xml.catalog.file.path" value="${dita.plugin.com.oxygenxml.webhelp.responsive.dir}/xsl/template_catalog.xml"/>
+    <property name="xsl.extensions.xml.catalog.file.path" value="${dita.plugin.com.oxygenxml.webhelp.responsive.dir}/xsl/template_catalog.xml"/>
     
     <xmlcatalog id="xsl_extensions_catalog">
-      <catalogpath path="${webhelp.responsive.xsl.extensions.xml.catalog.file.path}"/>
+      <catalogpath path="${xsl.extensions.xml.catalog.file.path}"/>
     </xmlcatalog>
     
     <!--
@@ -253,30 +246,6 @@
                 java.lang.System.setProperty("webhelp.default.collection.type.sequence.prop", "yes");
             
     </script>   
-  </target>
-  
-  
-  <!--
-		Check license for WebHelp Responsive.
-	-->
-  <target name="whr-check-license" unless="${env.SAXON_EE_LICENSED_ENV}">
-    <echo>Using directory ${webhelp.responsive.lib.dir} </echo>
-    <available classname="ro.sync.licensemanager.WebhelpLicenseChecker" property="WebhelpLicenseChecker.present">
-      <classpath>
-        <fileset dir="${webhelp.responsive.lib.dir}">
-          <include name="*.jar"/>
-        </fileset>
-      </classpath>
-    </available>
-    <fail unless="WebhelpLicenseChecker.present" message="The WebHelp Plugin does not contain all jar files. Please contact support@oxygenxml.com for more details."/>
-    <java classname="ro.sync.licensemanager.WebhelpLicenseChecker" failonerror="true" fork="true" logError="true">
-      <arg value="${webhelp.responsive.dir}"/>
-      <classpath>
-        <fileset dir="${webhelp.responsive.lib.dir}">
-          <include name="*.jar"/>
-        </fileset>
-      </classpath>
-    </java>
   </target>
     
   <!--
@@ -403,8 +372,10 @@
     <!-- Remove the leading "." from the output extension -->
     <propertyregex property="noDotExt" input="${out.ext}" regexp="^\.(.*)" replace="\1" defaultValue="${out.ext}" casesensitive="false"/>
     
-    <echo>Indexing html files in ${output.dir}, indexer language is: ${webhelp.language}</echo>
-    <indexertask outputDir="${output.dir}/oxygen-webhelp/app/search/index" propsDir="${webhelp.responsive.dir}/indexer" indexerLanguage="${webhelp.language}" htmlExtension="${noDotExt}" stem="${use.stemming}" enableAutocomplete="${webhelp.enable.search.autocomplete}" userDictionary="${webhelp.search.japanese.dictionary}" outputType="WH_RESPONSIVE" doNotIndex="div.ignore,div.navfooter,div.footer,div.navheader,div.wh_top_menu,div.wh_breadcrumb,div.wh_side_toc,       div.wh_tools,div.wh_publication_title,div.wh_publication_toc,div.wh_topic_toc,div.wh_indexterms_link,div.wh_copyright_information,nav.wh_footer,nav.related-links,       span.navheader, span.navparent, div.navfooter,span.topic_breadcrumb_links">
+    <propertyregex property="webhelp.language.short" input="${webhelp.language}" regexp="(..)" select="\1" defaultvalue="en" override="true"/>
+    
+    <echo>Indexing html files in ${output.dir}, indexer language is: ${webhelp.language.short}</echo>
+    <indexertask outputDir="${output.dir}/oxygen-webhelp/app/search/index" propsDir="${webhelp.responsive.dir}/indexer" indexerLanguage="${webhelp.language.short}" htmlExtension="${noDotExt}" stem="${use.stemming}" enableAutocomplete="${webhelp.enable.search.autocomplete}" userDictionary="${webhelp.search.japanese.dictionary}" outputType="WH_RESPONSIVE" stopWordsExclude="${webhelp.search.stop.words.exclude}" doNotIndex="div.ignore,nav.wh_tools,footer,header,div.wh_publication_toc,div.wh_topic_toc,div.wh_child_links,div.related_link,div.wh_copyright_information">
       
       
       <fileset dir="${output.dir}">
@@ -504,7 +475,7 @@
 
   <!--
     Detect documentation language by looking into DITAMAP file. 
-    If not detected use the value of 'args.default.language' property.
+    If not detected use the value of 'default.language' property.
   -->
   <target name="whr-detect-lang">
     <property name="inputMap" value="${dita.temp.dir}/${user.input.file}"/>
@@ -522,15 +493,28 @@
       <isset property="document.locale"/>
       <then>
         <!-- Use use propertyregex from antcontrib -->
-        <propertyregex property="webhelp.language" input="${document.locale}" regexp="(..)" select="\1" defaultvalue="en" override="true"/>
+        <propertyregex property="webhelp.language" input="${document.locale}" regexp="([a-z]+)[_\-]([a-z]*)" replace="\1-\2" defaultvalue="${document.locale}" override="true" casesensitive="false"/>
       </then>
       <else>
         <if>
-          <isset property="args.default.language"/>
+          <isset property="default.language"/>
           <then>
             <!-- Use use propertyregex from antcontrib -->
-            <propertyregex property="webhelp.language" input="${args.default.language}" regexp="(..)" select="\1" defaultvalue="en" override="true"/>
+            <property name="webhelp.language" value="${default.language}"/>
+            <!--<propertyregex property="webhelp.language" input="${default.language}"
+              regexp="(..)" select="\1" defaultvalue="en" override="true"/>-->
           </then>
+          <else>
+            <if>
+              <isset property="args.default.language"/>
+              <then>
+                <!-- Use use propertyregex from antcontrib -->
+                <property name="webhelp.language" value="${args.default.language}"/>
+                <!--<propertyregex property="webhelp.language" input="${args.default.language}"
+                  regexp="(..)" select="\1" defaultvalue="en" override="true"/>-->
+              </then>
+            </if>
+          </else>
         </if>
       </else>
     </if>
@@ -655,7 +639,7 @@
       <param name="OUTPUTDIR" expression="${output.dir}"/>
       <param name="BASEDIR" expression="${webhelp.responsive.dir}"/>
       <param name="OUTEXT" expression="${out.ext}" if="out.ext"/>
-      <param name="DEFAULTLANG" expression="${args.default.language}" if="args.default.language"/>
+      <param name="DEFAULTLANG" expression="${webhelp.language}" if="webhelp.language"/>
       <param name="CSS" expression="${args.css.file}" if="args.css.file"/>
       <param name="CSSPATH" expression="${user.csspath}" if="user.csspath"/>
       <param name="WEBHELP_LOGO_IMAGE" expression="${webhelp.logo.image.output}" if="webhelp.logo.image.output"/>
@@ -666,7 +650,6 @@
       <param name="WEBHELP_SEARCH_RESULT" expression="${webhelp.google.search.results.url}" if="webhelp.google.search.results.url"/>
       <param name="WEBHELP_VERSION" expression="${webhelp.version}" if="webhelp.version"/>
       <param name="WEBHELP_BUILD_NUMBER" expression="${webhelp.build.number}" if="webhelp.build.number"/>
-      <param name="WEBHELP_UNIQUE_ID" expression="${whr.gen.time}"/>      
       <param name="WEBHELP_TRIAL_LICENSE" expression="${webhelp.trial.license}" if="webhelp.trial.license"/>
 
       <param name="WEBHELP_DITAMAP_URL" expression="${org.dita-ot.html.map.url}"/>
@@ -706,7 +689,7 @@
       <param name="OUTPUTDIR" expression="${output.dir}"/>
       <param name="BASEDIR" expression="${webhelp.responsive.dir}"/>
       <param name="OUTEXT" expression="${out.ext}" if="out.ext"/>
-      <param name="DEFAULTLANG" expression="${args.default.language}" if="args.default.language"/>
+      <param name="DEFAULTLANG" expression="${webhelp.language}" if="webhelp.language"/>
       <param name="CSS" expression="${args.css.file}" if="args.css.file"/>
       <param name="CSSPATH" expression="${user.csspath}" if="user.csspath"/>
       <param name="WEBHELP_LOGO_IMAGE" expression="${webhelp.logo.image.output}" if="webhelp.logo.image.output"/>
@@ -717,7 +700,6 @@
       <param name="WEBHELP_SEARCH_RESULT" expression="${webhelp.google.search.results.url}" if="webhelp.google.search.results.url"/>
       <param name="WEBHELP_VERSION" expression="${webhelp.version}" if="webhelp.version"/>
       <param name="WEBHELP_BUILD_NUMBER" expression="${webhelp.build.number}" if="webhelp.build.number"/>
-      <param name="WEBHELP_UNIQUE_ID" expression="${whr.gen.time}"/>      
       <param name="WEBHELP_TRIAL_LICENSE" expression="${webhelp.trial.license}" if="webhelp.trial.license"/>
       
       <param name="WEBHELP_DITAMAP_URL" expression="${org.dita-ot.html.map.url}"/>
@@ -751,7 +733,7 @@
       <param name="OUTPUTDIR" expression="${output.dir}"/>
       <param name="BASEDIR" expression="${webhelp.responsive.dir}"/>
       <param name="OUTEXT" expression="${out.ext}" if="out.ext"/>
-      <param name="DEFAULTLANG" expression="${args.default.language}" if="args.default.language"/>
+      <param name="DEFAULTLANG" expression="${webhelp.language}" if="webhelp.language"/>
       <param name="CSS" expression="${args.css.file}" if="args.css.file"/>
       <param name="CSSPATH" expression="${user.csspath}" if="user.csspath"/>
       <param name="WEBHELP_LOGO_IMAGE" expression="${webhelp.logo.image.output}" if="webhelp.logo.image.output"/>
@@ -762,7 +744,6 @@
       <param name="WEBHELP_SEARCH_RESULT" expression="${webhelp.google.search.results.url}" if="webhelp.google.search.results.url"/>
       <param name="WEBHELP_VERSION" expression="${webhelp.version}" if="webhelp.version"/>
       <param name="WEBHELP_BUILD_NUMBER" expression="${webhelp.build.number}" if="webhelp.build.number"/>
-      <param name="WEBHELP_UNIQUE_ID" expression="${whr.gen.time}"/>      
       <param name="WEBHELP_TRIAL_LICENSE" expression="${webhelp.trial.license}" if="webhelp.trial.license"/>
       
       <param name="WEBHELP_DITAMAP_URL" expression="${org.dita-ot.html.map.url}"/>
@@ -798,9 +779,12 @@
       <param name="OUTPUTDIR" expression="${output.dir}"/>
       <param name="BASEDIR" expression="${webhelp.responsive.dir}"/>
       <param name="OUTEXT" expression="${out.ext}" if="out.ext"/>
-      <param name="DEFAULTLANG" expression="${args.default.language}" if="args.default.language"/>
+      <param name="DEFAULTLANG" expression="${webhelp.language}" if="webhelp.language"/>
       <param name="CSS" expression="${args.css.file}" if="args.css.file"/>
       <param name="CSSPATH" expression="${user.csspath}" if="user.csspath"/>
+      
+      <param name="DITA_OT_PLUGINS_FILE_URL" expression="${dita.dir}/resources/plugins.xml"/>
+      
       <param name="WEBHELP_LOGO_IMAGE" expression="${webhelp.logo.image.output}" if="webhelp.logo.image.output"/>
       <param name="WEBHELP_LOGO_IMAGE_TARGET_URL" expression="${webhelp.logo.image.target.url}" if="webhelp.logo.image.target.url"/>
       <param name="WEBHELP_FAVICON" expression="${webhelp.favicon.relpath}" if="webhelp.favicon.relpath"/>
@@ -809,7 +793,6 @@
       <param name="WEBHELP_SEARCH_RESULT" expression="${webhelp.google.search.results.url}" if="webhelp.google.search.results.url"/>
       <param name="WEBHELP_VERSION" expression="${webhelp.version}" if="webhelp.version"/>
       <param name="WEBHELP_BUILD_NUMBER" expression="${webhelp.build.number}" if="webhelp.build.number"/>
-      <param name="WEBHELP_UNIQUE_ID" expression="${whr.gen.time}"/>      
       <param name="WEBHELP_TRIAL_LICENSE" expression="${webhelp.trial.license}" if="webhelp.trial.license"/>
       <param name="WEBHELP_FEEDBACK_ENABLED" expression="${webhelp.feedback.enabled}" if="webhelp.feedback.enabled"/>
       
@@ -878,7 +861,7 @@
       <param name="OUTPUTDIR" expression="${output.dir}"/>
       <!-- WH-257: Parameter used in commonComponentsExpander.xsl -->
       <param name="TEMPDIR" expression="${dita.temp.dir}"/>
-      <param name="LANGUAGE" expression="${args.default.language}" if="args.default.language"/>
+      <param name="LANGUAGE" expression="${webhelp.language}" if="webhelp.language"/>
       <param name="DBG" expression="${args.debug}" if="args.debug"/>
       <param name="CSS" expression="${args.css.file}" if="args.css.file"/>
       <param name="CSSPATH" expression="${user.csspath}" if="user.csspath"/>
@@ -891,7 +874,6 @@
       <param name="WEBHELP_PRODUCT_VERSION" expression="${webhelp.product.version}" if="webhelp.product.version"/>
       <param name="WEBHELP_VERSION" expression="${webhelp.version}" if="webhelp.version"/>
       <param name="WEBHELP_BUILD_NUMBER" expression="${webhelp.build.number}" if="webhelp.build.number"/>
-      <param name="WEBHELP_UNIQUE_ID" expression="${whr.gen.time}"/>
       <param name="INDEX_XML_FILEPATH" expression="${output.dir}/index.xml"/>
       <param name="WEBHELP_FAVICON" expression="${webhelp.favicon.relpath}" if="webhelp.favicon.relpath"/>
 
@@ -907,6 +889,7 @@
       
       <!-- Navigation links params -->
       <param name="WEBHELP_TOP_MENU_TEMP_FILE_URL" expression="${webhelp.top.menu.temp.file.url}"/>
+      <param name="DEFAULTLANG" expression="${webhelp.language}" if="webhelp.language"/>
       
       
     
@@ -917,25 +900,13 @@
     <param name="editlink.present.only.path.to.topic" expression="${editlink.present.only.path.to.topic}" if="editlink.present.only.path.to.topic"/>
 
     <param name="editlink.local.ditamap.path" expression="${args.input}"/>
+    <param name="editlink.local.ditaval.path" expression="${args.filter}" if="args.filter"/>
+    
 
     <param name="com.oxygenxml.xhtml.linkToMediaResources" expression="${com.oxygenxml.xhtml.linkToMediaResources}" if="com.oxygenxml.xhtml.linkToMediaResources"/>
 
-  
-  <param name="DEFAULTLANG" expression="${args.default.language}" if="args.default.language"/>
-
-  <param name="lc-number-questions" expression="${arg.lc.html.numberQuestions}" if="arg.lc.html.numberQuestions"/>  
-  <param name="lc-show-feedback" expression="${arg.lc.html.showFeedback}" if="arg.lc.html.showFeedback"/>  
-  <param name="lc-style-correct-responses" expression="${arg.lc.html.styleCorrectResponses}" if="arg.lc.html.styleCorrectResponses"/>  
-  <param name="lc-question-number-format" expression="${arg.lc.html.questionNumberFormat}" if="arg.lc.html.questionNumberFormat"/>  
-  <param name="lc-question-number-prefix" expression="${arg.lc.html.questionNumberPrefix}" if="arg.lc.html.questionNumberPrefix"/>  
-  <param name="lc-question-number-suffix" expression="${arg.lc.html.questionNumberSuffix}" if="arg.lc.html.questionNumberSuffix"/>  
-  <param name="lc-answer-option-number-format" expression="${arg.lc.html.answerOptionNumberFormat}" if="arg.lc.html.answerOptionNumberFormat"/>
-  <param name="lc-show-only-correct-answer" expression="${arg.lc.html.showOnlyCorrectAnswer}" if="arg.lc.html.showOnlyCorrectAnswer"/>
-  <param name="lc-show-only-feedback" expression="${arg.lc.html.showOnlyFeedback}" if="arg.lc.html.showOnlyFeedback"/>
-  <param name="lc-hide-question-labels" expression="${arg.lc.html.hideQuestionLabels}" if="arg.lc.html.hideQuestionLabels"/>
-
-  <param name="tempdirLocalComm" expression="${dita.temp.dir}"/>  
-  <param name="mappath" expression="${args.input}"/>  
+  <param name="input.map.url" expression="${html5.map.url}" if:set="html5.map.url"/>
+  <param name="nav-toc" expression="${html5.nav-toc}" if:set="html5.nav-toc"/>
 
       <!-- 
         Extension point to pass parameters to the XSLT transformation.
@@ -1015,6 +986,12 @@
       <param name="MENU_TEMP_FILE_URI" expression="${webhelp.top.menu.temp.file.url}"/>
       <param name="WEBHELP_TOP_MENU_DEPTH" expression="${webhelp.top.menu.depth}"/>
       <param name="JSON_OUTPUT_DIR_URI" expression="${nav.json.out.dir.url}"/>
+      
+      <!-- 
+        Extension point to pass parameters to the XSLT transformation that creates the navigation links files.
+      -->
+      
+      
       <sysproperty key="DOT_VERSION" value="${otversion}"/>
       
       <xmlcatalog><xmlcatalog refid="xsl_extensions_catalog"/>
@@ -1057,7 +1034,7 @@
   <target name="whr-search-index-preprocess">
     <!-- Collect the topics marked with @search="no" in order to exclude them from search indexer -->
     <property name="create.search.excludes.xsl" value="${webhelp.responsive.dir}/xsl/search/createSearchExcludesFile.xsl"/>
-    <property name="search.excludes.file" value="${output.dir}/oxygen-webhelp/app/search/search-excludes.txt"/>
+    <property name="search.excludes.file" value="${dita.temp.dir}/search-excludes.txt"/>
     <xslt processor="trax" in="${dita.temp.dir}/${user.input.file}" out="${search.excludes.file}" style="${create.search.excludes.xsl}" force="yes" classpathref="dost.class.path" reloadstylesheet="${webhelp.reload.stylesheet}">
 
       <factory name="net.sf.saxon.TransformerFactoryImpl"/>
