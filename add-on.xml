@@ -8,7 +8,7 @@
         <xt:oxy_version>20.0+</xt:oxy_version>
         <xt:type>plugin</xt:type>
         <xt:author>SyncroSoft</xt:author>
-        <xt:name>DITA OT 3.x publishing engine.</xt:name>
+        <xt:name>DITA OT 3.x publishing engine</xt:name>
         <xt:description xmlns="http://www.w3.org/1999/xhtml">
             Plugin which contributes a DITA OT 3.x (DITA Open Toolkit version 3.1) engine which can be selected in the Oxygen Preferences->DITA page and used for publishing.
         </xt:description>
