@@ -7,5 +7,5 @@
  version="1.1"
  vendor="Syncro Soft"
  class="ro.sync.exml.plugin.Plugin">
- <extension type="AdditionalDITAOT" path="dita-ot-3.x" description="DITA OT 3.x"/>
+ <extension type="AdditionalDITAOT" path="dita-ot-3.x" description="DITA OT 3.x (Add-on)"/>
 </plugin>
