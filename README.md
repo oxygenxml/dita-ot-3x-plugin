@@ -1,4 +1,4 @@
-# DITA-OT 3.x Publishing Engine add-on
+# DITA-OT 3.x Publishing Engine add-on - THIS ADD-ON IS DEPRECATED BECAUSE NEWER VERSIONS OF OXYGEN COME WITH DITA OT 3.x BUNDLED
 Add-on that adds capabilities for publishing using DITA-OT 3.x (DITA Open Toolkit version 3.1). Compatible with Oxygen 20.1 and newer.
 
 How to install
